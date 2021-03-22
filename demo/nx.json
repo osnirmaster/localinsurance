@@ -1,0 +1,58 @@
+{
+  "npmScope": "demo",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.base.json": "*",
+    "tslint.json": "*",
+    ".eslintrc.json": "*",
+    "nx.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "projects": {
+    "angularapp": {
+      "tags": []
+    },
+    "angularapp-e2e": {
+      "tags": [],
+      "implicitDependencies": ["angularapp"]
+    },
+    "reactapp": {
+      "tags": []
+    },
+    "reactapp-e2e": {
+      "tags": [],
+      "implicitDependencies": ["reactapp"]
+    },
+    "demologin": {
+      "tags": []
+    },
+    "sinistroapp": {
+      "tags": []
+    },
+    "sinistroapp-e2e": {
+      "tags": [],
+      "implicitDependencies": ["sinistroapp"]
+    },
+    "segurovidaapp": {
+      "tags": []
+    },
+    "segurovidaapp-e2e": {
+      "tags": [],
+      "implicitDependencies": ["segurovidaapp"]
+    }
+  }
+}
