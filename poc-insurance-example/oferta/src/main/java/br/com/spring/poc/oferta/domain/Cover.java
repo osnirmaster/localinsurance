@@ -1,4 +1,4 @@
-package br.com.spring.poc.elegibilidade.domain;
+package br.com.spring.poc.oferta.domain;
 
 public class Cover {
 
