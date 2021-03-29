@@ -13,7 +13,6 @@ public class People {
 	
 	
 	public People(String name, String sublime, Date bornDate, List<String> appointments) {
-		super();
 		this.name = name;
 		this.sublime = sublime;
 		this.bornDate = bornDate;

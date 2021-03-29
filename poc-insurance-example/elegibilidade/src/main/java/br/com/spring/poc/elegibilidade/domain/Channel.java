@@ -1,11 +1,11 @@
 package br.com.spring.poc.elegibilidade.domain;
 
-public class Chanel {
+public class Channel {
 	
 	private int channelCode;
 	private String channelName;
 	
-	public Chanel(int channelCode, String channelName) {
+	public Channel(int channelCode, String channelName) {
 		this.channelCode = channelCode;
 		this.channelName = channelName;
 	}
