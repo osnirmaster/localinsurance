@@ -12,6 +12,7 @@ public class People {
 	private List<String> appointments = new ArrayList<String>();
 	
 	
+	
 	public People(String name, String sublime, Date bornDate, List<String> appointments) {
 		this.name = name;
 		this.sublime = sublime;
