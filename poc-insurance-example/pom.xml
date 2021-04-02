@@ -109,7 +109,8 @@
 	<modules>
 		<module>elegibilidade</module>
 		<module>oferta</module>
-	</modules>
+        <module>market</module>
+    </modules>
 
 	<build>
 		<plugins>
