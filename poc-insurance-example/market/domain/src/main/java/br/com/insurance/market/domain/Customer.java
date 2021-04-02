@@ -1,19 +1,19 @@
-package br.com.spring.poc.elegibilidade.domain;
+package br.com.insurance.market.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class People {
+public class Customer {
 
 	private String name;
 	private String sublime;
 	private Date bornDate;
-	private List<String> appointments = new ArrayList<String>();
+	private List<String> appointments = new ArrayList<>();
 	
 	
 	
-	public People(String name, String sublime, Date bornDate, List<String> appointments) {
+	public Customer(String name, String sublime, Date bornDate, List<String> appointments) {
 		this.name = name;
 		this.sublime = sublime;
 		this.bornDate = bornDate;

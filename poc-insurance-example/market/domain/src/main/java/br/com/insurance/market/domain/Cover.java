@@ -1,4 +1,4 @@
-package br.com.spring.poc.oferta.domain;
+package br.com.insurance.market.domain;
 
 public class Cover {
 

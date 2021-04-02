@@ -1,4 +1,4 @@
-package br.com.spring.poc.oferta.domain;
+package br.com.insurance.market.domain;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class Product {
     private String code;
     private String image;
     private List<Cover> covers;
-    private List<Question> questions;
+    private List<Questions> questions;
     private String icon;
 	
 
