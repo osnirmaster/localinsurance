@@ -49,11 +49,11 @@ public class Quota {
     }
 
 
-    public List<Quota> calculatePrice(Quota quota){
+    public Quota calculatePrice(Product product){
         calculateCovers();
+        totalPrice.add(product.getPrice());
 
-
-
+        return this;
     }
 
     public void calculateCovers(){
