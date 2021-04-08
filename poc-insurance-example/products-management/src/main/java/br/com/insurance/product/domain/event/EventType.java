@@ -1,0 +1,12 @@
+package br.com.insurance.product.domain.event;
+
+public enum EventType {
+    PRODUTO_CRIADO,
+    PRODUTO_ALTERADO,
+    PRODUTO_CANCELADO,
+    PRODUTO_EXPIRADO,
+    COBERTURA_ADICIONADO,
+    PARCEIRO_CADASTRADO,
+    QUESTAO_ALTERADA,
+    CATEGORIA_CRIADA
+}

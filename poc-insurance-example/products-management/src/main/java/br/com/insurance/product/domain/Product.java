@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Product {
+
+    private Meta metaData;
     private String code;
     private String name;
     private Integer groupCode;
@@ -24,5 +26,6 @@ public class Product {
     private Version version;
     private BigDecimal price;
     private Status status;
+    private Partners partner;
 
 }
