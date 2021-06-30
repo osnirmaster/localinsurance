@@ -1,2 +1,2 @@
 # localinsurance
-Modelo de Referencia para Caso de Uso de Corretora de Seguros e Seguradora
+Case simulando plataforma de seguros, demonstrando boas praticas de arquitetura e demonstrando implementacoes de tecnologias.
