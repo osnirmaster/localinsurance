@@ -1,20 +1,15 @@
 package br.com.insurance.market.domain.vo;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Getter
+
 public class Quantity {
 
     private BigDecimal value;
+    
+    public Quantity(BigDecimal value) {
+    	this.value = value;
+    }
 
     public static Quantity of(BigDecimal value) {
         return new Quantity(value);
@@ -38,6 +33,10 @@ public class Quantity {
 
     public Quantity add(Quantity qt){
         return new Quantity(qt.value.add(value));
+    }
+    
+    public BigDecimal getValue() {
+    	return this.value;
     }
 
     public Quantity subtract(Quantity qt) { return new Quantity(value.subtract(qt.value)); }

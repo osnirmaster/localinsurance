@@ -3,12 +3,6 @@ package br.com.insurance.market.domain.vo;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import javax.persistence.Embeddable;
-
-import lombok.Getter;
-
-@Embeddable
-@Getter
 public class MonetaryAmount implements Comparable<MonetaryAmount> {
     private final BigDecimal amount;
 
@@ -125,6 +119,10 @@ public class MonetaryAmount implements Comparable<MonetaryAmount> {
 
     public BigDecimal toBigDecimal() {
         return new BigDecimal(amount.toString());
+    }
+    
+    public BigDecimal getAmount() {
+    	return this.getAmount();
     }
 
     @Override

@@ -1,24 +1,23 @@
 package br.com.insurance.market.domain.vo;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-@Embeddable
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+
 public class DateRange {
     private LocalDate from;
     private LocalDate to;
 
-    public static DateRange between(LocalDate from, LocalDate to) {
+    
+    
+    public DateRange(LocalDate from, LocalDate to) {
+		super();
+		this.from = from;
+		this.to = to;
+	}
+
+	public static DateRange between(LocalDate from, LocalDate to) {
         return new DateRange(from, to);
     }
 

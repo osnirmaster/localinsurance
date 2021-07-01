@@ -1,21 +1,17 @@
 package br.com.insurance.market.domain.vo;
 
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Getter
+
 public class Percent {
     private BigDecimal value;
+    
+    
+    public Percent(BigDecimal value) {
+    	this.value = value;
+    }
 
     public static Percent of(BigDecimal value) {
         return new Percent(value);
