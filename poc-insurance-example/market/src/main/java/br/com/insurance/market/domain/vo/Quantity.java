@@ -2,7 +2,7 @@ package br.com.insurance.market.domain.vo;
 
 import java.math.BigDecimal;
 
-
+//teste
 public class Quantity {
 
     private BigDecimal value;
