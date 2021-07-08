@@ -9,5 +9,5 @@ public abstract class Listener {
     }
 
     protected abstract void reactTo(Event event);
-    protected abstract boolean eventToProcess(Event evento);
+    protected abstract boolean eventToProcess(Event event);
 }
