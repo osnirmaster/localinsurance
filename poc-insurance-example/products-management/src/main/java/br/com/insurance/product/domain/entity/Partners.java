@@ -1,4 +1,4 @@
-package br.com.insurance.product.domain;
+package br.com.insurance.product.domain.entity;
 
 public class Partners {
 
@@ -22,4 +22,6 @@ public class Partners {
         this.paymentsMethod = paymentsMethod;
         this.callbackUrl = callbackUrl;
     }
+
+
 }

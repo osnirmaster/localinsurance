@@ -1,4 +1,4 @@
-package br.com.insurance.product.domain;
+package br.com.insurance.product.domain.entity;
 
 public class Category {
 
