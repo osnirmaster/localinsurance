@@ -1,4 +1,6 @@
-package br.com.insurance.product.domain;
+package br.com.insurance.product.domain.entity;
+
+import br.com.insurance.product.domain.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
