@@ -1,10 +1,14 @@
 package br.com.insurance.product.infra.entities;
 
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity(name = "Partner")
+@Table(name = "partners")
 public class PartnersEntity {
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID idPartner;
     private String partnerName;
     private String description;
@@ -13,8 +17,7 @@ public class PartnersEntity {
 
     public PartnersEntity(){}
 
-    public PartnersEntity(UUID idPartner,String partnerName, String description, String paymentsMethod, String callbackUrl) {
-        this.idPartner = idPartner;
+    public PartnersEntity(String partnerName, String description, String paymentsMethod, String callbackUrl) {
         this.partnerName = partnerName;
         this.description = description;
         this.paymentsMethod = paymentsMethod;

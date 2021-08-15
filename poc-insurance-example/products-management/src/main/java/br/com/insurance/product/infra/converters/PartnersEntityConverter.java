@@ -18,7 +18,7 @@ public class PartnersEntityConverter {
 
     public PartnersEntity covertToPartnersEntity( Partners partner){
 
-        return new PartnersEntity(UUID.randomUUID(),
+        return new PartnersEntity(
                     partner.getPartnerName(),
                     partner.getDescription(),
                     partner.getPaymentsMethod(),

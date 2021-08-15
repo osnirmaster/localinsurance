@@ -16,46 +16,40 @@ import javax.persistence.*;
 @Entity(name = "Product")
 @Table(name = "product")
 public class ProductEntity {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID idProduct;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID idProductEntity;
     private Meta metaData;
     private String code;
     private String name;
     private String image;
     private String description;
+    @OneToMany(mappedBy = "product")
     private List<Cover> covers;
+    @OneToMany(mappedBy = "product")
     private List<Question> questions;
     private int maxNumberOfInsured;
     private String icon;
-
     @ManyToOne
     private Category category;
-
     private LocalDateTime createdDate = LocalDateTime.now();;
-
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate validatyFrom;
-
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate validatyUntil;
-
     private Version version;
     private BigDecimal price;
-
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
-
     @ManyToOne
     private PartnersEntity partner;
 
     //JPA requires
     public ProductEntity(){}
 
-    public ProductEntity(UUID idProduct,Meta metaData, String code, String name, String image,
+    public ProductEntity(Meta metaData, String code, String name, String image,
                    String description, List<Cover> covers, List<Question> questions,
                    int maxNumberOfInsured, String icon, Category category, LocalDateTime createdDate,
                    LocalDate validatyFrom, LocalDate validatyUntil, PartnersEntity partner) {
-        this.idProduct = idProduct;
         this.metaData = metaData;
         this.code = code;
         this.name = name;
@@ -72,8 +66,8 @@ public class ProductEntity {
         this.partner = partner;
     }
 
-    public UUID getIdProduct() {
-        return idProduct;
+    public UUID getidProductEntity() {
+        return idProductEntity;
     }
 
     public Meta getMetaData() {
@@ -228,11 +222,11 @@ public class ProductEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductEntity that = (ProductEntity) o;
-        return maxNumberOfInsured == that.maxNumberOfInsured && Objects.equals(idProduct, that.idProduct) && Objects.equals(metaData, that.metaData) && Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(image, that.image) && Objects.equals(description, that.description) && Objects.equals(covers, that.covers) && Objects.equals(questions, that.questions) && Objects.equals(icon, that.icon) && Objects.equals(category, that.category) && Objects.equals(createdDate, that.createdDate) && Objects.equals(validatyFrom, that.validatyFrom) && Objects.equals(validatyUntil, that.validatyUntil) && Objects.equals(version, that.version) && Objects.equals(price, that.price) && status == that.status && Objects.equals(partner, that.partner);
+        return maxNumberOfInsured == that.maxNumberOfInsured && Objects.equals(idProductEntity, that.idProductEntity) && Objects.equals(metaData, that.metaData) && Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(image, that.image) && Objects.equals(description, that.description) && Objects.equals(covers, that.covers) && Objects.equals(questions, that.questions) && Objects.equals(icon, that.icon) && Objects.equals(category, that.category) && Objects.equals(createdDate, that.createdDate) && Objects.equals(validatyFrom, that.validatyFrom) && Objects.equals(validatyUntil, that.validatyUntil) && Objects.equals(version, that.version) && Objects.equals(price, that.price) && status == that.status && Objects.equals(partner, that.partner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProduct, metaData, code, name, image, description, covers, questions, maxNumberOfInsured, icon, category, createdDate, validatyFrom, validatyUntil, version, price, status, partner);
+        return Objects.hash(idProductEntity, metaData, code, name, image, description, covers, questions, maxNumberOfInsured, icon, category, createdDate, validatyFrom, validatyUntil, version, price, status, partner);
     }
 }

@@ -1,26 +1,50 @@
 package br.com.insurance.product.infra.entities;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity(name = "Cover")
+@Table(name = "cover")
 public class CoverEntity {
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID idCover;
     private String code;
     private String name;
     private String description;
     private boolean optional;
     private BigDecimal sumInsured;
+    @ManyToOne
+    private ProductEntity productEntity;
 
     public CoverEntity(){}
 
-    public CoverEntity(String code, String name, String description, boolean optional, BigDecimal sumInsured) {
+    public CoverEntity(String code, String name, String description, boolean optional,
+                       BigDecimal sumInsured, ProductEntity productEntity) {
         this.code = code;
         this.name = name;
         this.description = description;
         this.optional = optional;
         this.sumInsured = sumInsured;
+        this.productEntity = productEntity;
+    }
+
+    public UUID getIdCover() {
+        return idCover;
+    }
+
+    public void setIdCover(UUID idCover) {
+        this.idCover = idCover;
+    }
+
+    public ProductEntity getProductEntity() {
+        return productEntity;
+    }
+
+    public void setProductEntity(ProductEntity productEntity) {
+        this.productEntity = productEntity;
     }
 
     public String getCode() {

@@ -16,10 +16,9 @@ public class CategoryEntityConverter {
     }
 
     public CategoryEntity convertToCargoEntity(Category category) {
-        return new CategoryEntity(UUID.randomUUID(),
-                                category.getCategoryName(),
-                                category.getDescription(),
-                                category.getStatus());
+        return new CategoryEntity(  category.getCategoryName(),
+                                    category.getDescription(),
+                                    category.getStatus());
     }
 
 }

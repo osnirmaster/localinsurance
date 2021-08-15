@@ -32,7 +32,6 @@ public class ProductEntityConverter {
 
     public ProductEntity convertToProductEntity(Product product){
         return new ProductEntity(
-                UUID.randomUUID(),
                 product.getMetaData(),
                 product.getCode(),
                 product.getName(),

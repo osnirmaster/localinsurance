@@ -8,6 +8,7 @@ import br.com.insurance.product.infra.entities.ProductEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -37,8 +38,8 @@ public class ProductRepositorySpringData implements ProductRepository {
     }
 
     @Override
-    public void save(Product product) {
-        productRepositoryEntity.save(converter.convertToProductEntity(product));
+    public UUID save(Product product) {
+        return productRepositoryEntity.save(converter.convertToProductEntity(product)).getidProductEntity();
     }
 }
 

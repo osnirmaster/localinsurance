@@ -5,6 +5,8 @@ import br.com.insurance.product.domain.repository.CategoryRepository;
 import br.com.insurance.product.domain.repository.PartnersRepository;
 import br.com.insurance.product.domain.repository.ProductRepository;
 
+import java.util.UUID;
+
 public class RegisterBusinessProduct {
 
     private final ProductRepository productRepository;
@@ -19,8 +21,8 @@ public class RegisterBusinessProduct {
         this.categoryRepository = categoryRepository;
     }
 
-    public void cadastrarProduto(Product produto){
-        productRepository.save(produto);
+    public UUID cadastrarProduto(Product produto){
+        return productRepository.save(produto);
     }
 
 }

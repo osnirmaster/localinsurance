@@ -3,6 +3,7 @@ package br.com.insurance.product.domain.repository;
 import br.com.insurance.product.domain.entity.Product;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ProductRepository {
 
@@ -10,5 +11,5 @@ public interface ProductRepository {
 
     Product findByCode(String productCode);
 
-    void save(Product product);
+    UUID save(Product product);
 }

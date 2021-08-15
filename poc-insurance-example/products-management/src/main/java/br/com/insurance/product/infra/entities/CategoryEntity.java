@@ -2,11 +2,14 @@ package br.com.insurance.product.infra.entities;
 
 import br.com.insurance.product.domain.entity.Status;
 
+import javax.persistence.*;
 import java.util.UUID;
 
+@Entity(name = "Category")
+@Table(name = "category")
 public class CategoryEntity {
 
-
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID categoryId;
     private String categoryName;
     private String description;
@@ -14,8 +17,7 @@ public class CategoryEntity {
 
     public CategoryEntity(){}
 
-    public CategoryEntity(UUID categoryId, String categoryName, String description, Status status) {
-        this.categoryId = categoryId;
+    public CategoryEntity(String categoryName, String description, Status status) {
         this.categoryName = categoryName;
         this.description = description;
         this.status = status;

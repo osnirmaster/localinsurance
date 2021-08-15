@@ -1,29 +1,30 @@
 package br.com.insurance.product.infra.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "Question")
+@Table(name = "question")
 public class QuestionEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID idQuestion;
     private String code;
     private int index;
     private String text;
+    @ManyToOne
     private ProductEntity productEntity;
 
     public QuestionEntity(){}
 
-    public QuestionEntity(String code, int index, String text) {
+    public QuestionEntity(String code, int index, String text, ProductEntity productEntity) {
         this.code = code;
         this.index = index;
         this.text = text;
+        this.productEntity = productEntity;
     }
+
 
     public UUID getIdQuestion() {
         return idQuestion;
@@ -55,6 +56,14 @@ public class QuestionEntity {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public ProductEntity getProductEntity() {
+        return productEntity;
+    }
+
+    public void setProductEntity(ProductEntity productEntity) {
+        this.productEntity = productEntity;
     }
 
     @Override
