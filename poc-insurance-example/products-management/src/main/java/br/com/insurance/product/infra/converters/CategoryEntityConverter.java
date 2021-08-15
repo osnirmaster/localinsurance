@@ -9,13 +9,13 @@ import java.util.UUID;
 @Service
 public class CategoryEntityConverter {
 
-    public Category convertToCargo(CategoryEntity entity) {
+    public Category convertToCategory(CategoryEntity entity) {
         return new Category(entity.getCategoryName(),
                     entity.getDescription(),
                     entity.getStatus());
     }
 
-    public CategoryEntity convertToCargoEntity(Category category) {
+    public CategoryEntity convertToCategoryEntity(Category category) {
         return new CategoryEntity(  category.getCategoryName(),
                                     category.getDescription(),
                                     category.getStatus());

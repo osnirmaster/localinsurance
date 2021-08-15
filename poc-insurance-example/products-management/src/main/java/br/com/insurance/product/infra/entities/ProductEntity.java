@@ -24,13 +24,13 @@ public class ProductEntity {
     private String image;
     private String description;
     @OneToMany(mappedBy = "product")
-    private List<Cover> covers;
+    private List<CoverEntity> coverEntity;
     @OneToMany(mappedBy = "product")
-    private List<Question> questions;
+    private List<QuestionEntity> questionEntity;
     private int maxNumberOfInsured;
     private String icon;
     @ManyToOne
-    private Category category;
+    private CategoryEntity category;
     private LocalDateTime createdDate = LocalDateTime.now();;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate validatyFrom;
@@ -47,16 +47,16 @@ public class ProductEntity {
     public ProductEntity(){}
 
     public ProductEntity(Meta metaData, String code, String name, String image,
-                   String description, List<Cover> covers, List<Question> questions,
-                   int maxNumberOfInsured, String icon, Category category, LocalDateTime createdDate,
+                   String description, List<CoverEntity> coverEntity, List<QuestionEntity> questionEntity,
+                   int maxNumberOfInsured, String icon, CategoryEntity category, LocalDateTime createdDate,
                    LocalDate validatyFrom, LocalDate validatyUntil, PartnersEntity partner) {
         this.metaData = metaData;
         this.code = code;
         this.name = name;
         this.image = image;
         this.description = description;
-        this.covers = covers;
-        this.questions = questions;
+        this.coverEntity = coverEntity;
+        this.questionEntity = questionEntity;
         this.maxNumberOfInsured = maxNumberOfInsured;
         this.icon = icon;
         this.category = category;
@@ -90,12 +90,12 @@ public class ProductEntity {
         return description;
     }
 
-    public List<Cover> getCovers() {
-        return covers;
+    public List<CoverEntity> getCoverEntity() {
+        return coverEntity;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public List<QuestionEntity> getQuestionEntitys() {
+        return questionEntity;
     }
 
     public int getMaxNumberOfInsured() {
@@ -106,7 +106,7 @@ public class ProductEntity {
         return icon;
     }
 
-    public Category getCategory() {
+    public CategoryEntity getCategory() {
         return category;
     }
 
@@ -158,12 +158,12 @@ public class ProductEntity {
         this.description = description;
     }
 
-    public void setCovers(List<Cover> covers) {
-        this.covers = covers;
+    public void setCoverEntity(List<CoverEntity> coverEntity) {
+        this.coverEntity = coverEntity;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public void setQuestionEntitys(List<QuestionEntity> questionEntitys) {
+        this.questionEntity = questionEntity;
     }
 
     public void setMaxNumberOfInsured(int maxNumberOfInsured) {
@@ -174,7 +174,7 @@ public class ProductEntity {
         this.icon = icon;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryEntity category) {
         this.category = category;
     }
 
@@ -206,15 +206,16 @@ public class ProductEntity {
         this.partner = partner;
     }
 
-    public void addCover(String code, String name, String description, boolean isOptional, BigDecimal sumInsured) {
-        covers.add(new Cover(code, name, description, isOptional, sumInsured));
+    public void addCoverEntity(String code, String name, String description,
+                               boolean isOptional, BigDecimal sumInsured, ProductEntity productEntity) {
+        coverEntity.add(new CoverEntity(code, name, description, isOptional, sumInsured, productEntity));
     }
 
-    public void addQuestions(List<Question> questions) {
-        if (this.questions == null) {
-            this.questions = new ArrayList<>();
+    public void addQuestionEntitys(List<QuestionEntity> QuestionEntitys) {
+        if (this.questionEntity == null) {
+            this.questionEntity = new ArrayList<>();
         }
-        this.questions.addAll(questions);
+        this.questionEntity.addAll(QuestionEntitys);
     }
 
     @Override
@@ -222,11 +223,17 @@ public class ProductEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductEntity that = (ProductEntity) o;
-        return maxNumberOfInsured == that.maxNumberOfInsured && Objects.equals(idProductEntity, that.idProductEntity) && Objects.equals(metaData, that.metaData) && Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(image, that.image) && Objects.equals(description, that.description) && Objects.equals(covers, that.covers) && Objects.equals(questions, that.questions) && Objects.equals(icon, that.icon) && Objects.equals(category, that.category) && Objects.equals(createdDate, that.createdDate) && Objects.equals(validatyFrom, that.validatyFrom) && Objects.equals(validatyUntil, that.validatyUntil) && Objects.equals(version, that.version) && Objects.equals(price, that.price) && status == that.status && Objects.equals(partner, that.partner);
+        return maxNumberOfInsured == that.maxNumberOfInsured && Objects.equals(idProductEntity, that.idProductEntity) && Objects.equals(metaData, that.metaData) && Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(image, that.image) &&
+                Objects.equals(description, that.description) && Objects.equals(coverEntity, that.coverEntity) &&
+                Objects.equals(questionEntity, that.questionEntity) && Objects.equals(icon, that.icon) &&
+                Objects.equals(category, that.category) && Objects.equals(createdDate, that.createdDate) &&
+                Objects.equals(validatyFrom, that.validatyFrom) && Objects.equals(validatyUntil, that.validatyUntil) &&
+                Objects.equals(version, that.version) && Objects.equals(price, that.price) &&
+                status == that.status && Objects.equals(partner, that.partner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProductEntity, metaData, code, name, image, description, covers, questions, maxNumberOfInsured, icon, category, createdDate, validatyFrom, validatyUntil, version, price, status, partner);
+        return Objects.hash(idProductEntity, metaData, code, name, image, description, coverEntity, questionEntity, maxNumberOfInsured, icon, category, createdDate, validatyFrom, validatyUntil, version, price, status, partner);
     }
 }

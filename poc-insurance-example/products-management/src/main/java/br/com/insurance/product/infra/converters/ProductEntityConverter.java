@@ -3,14 +3,15 @@ package br.com.insurance.product.infra.converters;
 import br.com.insurance.product.domain.entity.Product;
 import br.com.insurance.product.infra.entities.ProductEntity;
 
-import java.util.UUID;
-
 public class ProductEntityConverter {
 
-    private final PartnersEntityConverter converter;
+    private final PartnersEntityConverter converterPartners;
+    private final CategoryEntityConverter converterCategory;
 
-    public ProductEntityConverter(PartnersEntityConverter converter) {
-        this.converter = converter;
+    public ProductEntityConverter(PartnersEntityConverter converterPartners,
+                                  CategoryEntityConverter converterCategory) {
+        this.converterPartners = converterPartners;
+        this.converterCategory = converterCategory;
     }
 
     public Product convertToProduct(ProductEntity entity){
@@ -41,10 +42,10 @@ public class ProductEntityConverter {
                 product.getQuestions(),
                 product.getMaxNumberOfInsured(),
                 product.getIcon(),
-                product.getCategory(),
+                converterCategory.convertToCategoryEntity(product.getCategory()) ,
                 product.getCreatedDate(),
                 product.getValidatyFrom(),
                 product.getValidatyUntil(),
-                converter.covertToPartnersEntity(product.getPartner()));
+                converterPartners.covertToPartnersEntity(product.getPartner()));
     }
 }
