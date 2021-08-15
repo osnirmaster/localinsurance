@@ -22,8 +22,9 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> regsiter(@RequestBody ProdutcForm request, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<ProductDto> register(@RequestBody ProdutcForm request, UriComponentsBuilder uriBuilder){
 
+         registerBusinessProduct.cadastrarProduto( request);
 
     }
 

@@ -1,19 +1,29 @@
-package br.com.insurance.product.domain.entity;
+package br.com.insurance.product.infra.entities;
 
-import java.util.Objects;
+import br.com.insurance.product.domain.entity.Status;
 
-public class Category {
+import java.util.UUID;
 
+public class CategoryEntity {
+
+
+    private UUID categoryId;
     private String categoryName;
     private String description;
     private Status status;
 
-    public Category(String categoryName, String description, Status status) {
+    public CategoryEntity(){}
+
+    public CategoryEntity(UUID categoryId, String categoryName, String description, Status status) {
+        this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.description = description;
         this.status = status;
     }
 
+    public UUID getCategoryId() {
+        return categoryId;
+    }
 
     public String getCategoryName() {
         return categoryName;
@@ -39,17 +49,4 @@ public class Category {
         this.status = status;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return Objects.equals(categoryName, category.categoryName) && Objects.equals(description, category.description) && status == category.status;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(categoryName, description, status);
-    }
 }

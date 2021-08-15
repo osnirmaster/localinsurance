@@ -1,13 +1,23 @@
-package br.com.insurance.product.domain.entity;
+package br.com.insurance.product.infra.entities;
+
+import br.com.insurance.product.domain.entity.*;
+import br.com.insurance.product.domain.entity.Version;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import javax.persistence.*;
 
-public class Product {
+@Entity(name = "Product")
+@Table(name = "product")
+public class ProductEntity {
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID idProduct;
     private Meta metaData;
     private String code;
     private String name;
@@ -17,20 +27,35 @@ public class Product {
     private List<Question> questions;
     private int maxNumberOfInsured;
     private String icon;
+
+    @ManyToOne
     private Category category;
-    private LocalDateTime createdDate;
+
+    private LocalDateTime createdDate = LocalDateTime.now();;
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate validatyFrom;
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate validatyUntil;
+
     private Version version;
     private BigDecimal price;
-    private Status status;
-    private Partners partner;
 
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.ACTIVE;
 
-    public Product(Meta metaData, String code, String name, String image,
+    @ManyToOne
+    private PartnersEntity partner;
+
+    //JPA requires
+    public ProductEntity(){}
+
+    public ProductEntity(UUID idProduct,Meta metaData, String code, String name, String image,
                    String description, List<Cover> covers, List<Question> questions,
                    int maxNumberOfInsured, String icon, Category category, LocalDateTime createdDate,
-                   LocalDate validatyFrom, LocalDate validatyUntil, Partners partner) {
+                   LocalDate validatyFrom, LocalDate validatyUntil, PartnersEntity partner) {
+        this.idProduct = idProduct;
         this.metaData = metaData;
         this.code = code;
         this.name = name;
@@ -45,6 +70,10 @@ public class Product {
         this.validatyFrom = validatyFrom;
         this.validatyUntil = validatyUntil;
         this.partner = partner;
+    }
+
+    public UUID getIdProduct() {
+        return idProduct;
     }
 
     public Meta getMetaData() {
@@ -111,7 +140,7 @@ public class Product {
         return status;
     }
 
-    public Partners getPartner() {
+    public PartnersEntity getPartner() {
         return partner;
     }
 
@@ -179,7 +208,7 @@ public class Product {
         this.status = status;
     }
 
-    public void setPartner(Partners partner) {
+    public void setPartner(PartnersEntity partner) {
         this.partner = partner;
     }
 
@@ -192,5 +221,18 @@ public class Product {
             this.questions = new ArrayList<>();
         }
         this.questions.addAll(questions);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductEntity that = (ProductEntity) o;
+        return maxNumberOfInsured == that.maxNumberOfInsured && Objects.equals(idProduct, that.idProduct) && Objects.equals(metaData, that.metaData) && Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(image, that.image) && Objects.equals(description, that.description) && Objects.equals(covers, that.covers) && Objects.equals(questions, that.questions) && Objects.equals(icon, that.icon) && Objects.equals(category, that.category) && Objects.equals(createdDate, that.createdDate) && Objects.equals(validatyFrom, that.validatyFrom) && Objects.equals(validatyUntil, that.validatyUntil) && Objects.equals(version, that.version) && Objects.equals(price, that.price) && status == that.status && Objects.equals(partner, that.partner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProduct, metaData, code, name, image, description, covers, questions, maxNumberOfInsured, icon, category, createdDate, validatyFrom, validatyUntil, version, price, status, partner);
     }
 }
