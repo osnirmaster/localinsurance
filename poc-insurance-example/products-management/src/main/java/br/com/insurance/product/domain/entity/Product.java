@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 public class Product {
     private Meta metaData;
@@ -13,8 +13,8 @@ public class Product {
     private String name;
     private String image;
     private String description;
-    private List<Cover> covers;
-    private List<Question> questions;
+    private List<Cover> covers = new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();
     private int maxNumberOfInsured;
     private String icon;
     private Category category;
@@ -30,7 +30,8 @@ public class Product {
     public Product(Meta metaData, String code, String name, String image,
                    String description, List<Cover> covers, List<Question> questions,
                    int maxNumberOfInsured, String icon, Category category, LocalDateTime createdDate,
-                   LocalDate validatyFrom, LocalDate validatyUntil, Partners partner) {
+                   LocalDate validatyFrom, LocalDate validatyUntil, Version version,
+                   BigDecimal price,Partners partner) {
         this.metaData = metaData;
         this.code = code;
         this.name = name;
@@ -44,6 +45,8 @@ public class Product {
         this.createdDate = createdDate;
         this.validatyFrom = validatyFrom;
         this.validatyUntil = validatyUntil;
+        this.version = version;
+        this.price = price;
         this.partner = partner;
     }
 
@@ -183,8 +186,9 @@ public class Product {
         this.partner = partner;
     }
 
-    public void addCover(String code, String name, String description, boolean isOptional, BigDecimal sumInsured) {
-        covers.add(new Cover(code, name, description, isOptional, sumInsured));
+    public void addCover(String code, String name, String description, boolean isOptional,
+                         BigDecimal sumInsured, Product product) {
+        covers.add(new Cover(code, name, description, isOptional, sumInsured, product));
     }
 
     public void addQuestions(List<Question> questions) {

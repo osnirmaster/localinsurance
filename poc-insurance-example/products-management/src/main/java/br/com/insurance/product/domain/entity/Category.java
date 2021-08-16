@@ -1,19 +1,42 @@
 package br.com.insurance.product.domain.entity;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Category {
 
+    private UUID categoryId;
+    private String categoryCode;
     private String categoryName;
     private String description;
     private Status status;
 
-    public Category(String categoryName, String description, Status status) {
+    public Category(UUID categoryId){
+        this.categoryId = categoryId;
+    }
+
+    public Category(String categoryCode,String categoryName, String description, Status status) {
+        this.categoryCode = categoryCode;
         this.categoryName = categoryName;
         this.description = description;
         this.status = status;
     }
 
+    public UUID getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(UUID categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryCode() {
+        return categoryCode;
+    }
+
+    public void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
+    }
 
     public String getCategoryName() {
         return categoryName;

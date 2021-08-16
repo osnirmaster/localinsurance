@@ -5,6 +5,7 @@ import br.com.insurance.product.domain.repository.CategoryRepository;
 import br.com.insurance.product.domain.repository.PartnersRepository;
 import br.com.insurance.product.domain.repository.ProductRepository;
 
+import javax.transaction.Transactional;
 import java.util.UUID;
 
 public class RegisterBusinessProduct {

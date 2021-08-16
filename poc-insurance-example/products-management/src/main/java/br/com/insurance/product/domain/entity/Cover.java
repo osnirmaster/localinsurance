@@ -9,13 +9,20 @@ public class Cover {
     private String description;
     private boolean optional;
     private BigDecimal sumInsured;
+    private Product product;
 
-    public Cover(String code, String name, String description, boolean optional, BigDecimal sumInsured) {
+    public Cover(String code,
+                 String name,
+                 String description,
+                 boolean optional,
+                 BigDecimal sumInsured,
+                 Product product) {
         this.code = code;
         this.name = name;
         this.description = description;
         this.optional = optional;
         this.sumInsured = sumInsured;
+        this.product = product;
     }
 
     public String getCode() {
@@ -56,5 +63,13 @@ public class Cover {
 
     public void setSumInsured(BigDecimal sumInsured) {
         this.sumInsured = sumInsured;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

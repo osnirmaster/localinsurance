@@ -9,15 +9,17 @@ import java.util.UUID;
 @Table(name = "cover")
 public class CoverEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID idCover;
+    @Id
+    @Column(name = "cover_id", updatable = false, nullable = false)
+    private UUID idCover = UUID.randomUUID();
     private String code;
     private String name;
     private String description;
     private boolean optional;
     private BigDecimal sumInsured;
     @ManyToOne
-    private ProductEntity productEntity;
+    @JoinColumn(name="product_id")
+    private ProductEntity product;
 
     public CoverEntity(){}
 
@@ -28,7 +30,7 @@ public class CoverEntity {
         this.description = description;
         this.optional = optional;
         this.sumInsured = sumInsured;
-        this.productEntity = productEntity;
+        this.product= product;
     }
 
     public UUID getIdCover() {
@@ -40,11 +42,11 @@ public class CoverEntity {
     }
 
     public ProductEntity getProductEntity() {
-        return productEntity;
+        return product;
     }
 
-    public void setProductEntity(ProductEntity productEntity) {
-        this.productEntity = productEntity;
+    public void setProductEntity(ProductEntity product) {
+        this.product = product;
     }
 
     public String getCode() {

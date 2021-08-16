@@ -2,9 +2,11 @@ package br.com.insurance.product.infra.converters;
 
 import br.com.insurance.product.domain.entity.Partners;
 import br.com.insurance.product.infra.entities.PartnersEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class PartnersEntityConverter {
 
     public Partners convertToPartners(PartnersEntity entity){

@@ -10,15 +10,19 @@ import java.util.UUID;
 public class CategoryEntityConverter {
 
     public Category convertToCategory(CategoryEntity entity) {
-        return new Category(entity.getCategoryName(),
-                    entity.getDescription(),
-                    entity.getStatus());
+        return new Category(
+                entity.getCategoryCode(),
+                entity.getCategoryName(),
+                entity.getDescription(),
+                entity.getStatus());
     }
 
     public CategoryEntity convertToCategoryEntity(Category category) {
-        return new CategoryEntity(  category.getCategoryName(),
-                                    category.getDescription(),
-                                    category.getStatus());
+        return new CategoryEntity(
+                category.getCategoryCode(),
+                category.getCategoryName(),
+                category.getDescription(),
+                category.getStatus());
     }
 
 }

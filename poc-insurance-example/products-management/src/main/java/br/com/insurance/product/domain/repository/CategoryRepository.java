@@ -13,4 +13,6 @@ public interface CategoryRepository {
     Category findByCategoryId(UUID categoryId);
 
     void save(Category category);
+
+    Category findByCategoryCode(String categoryCode);
 }

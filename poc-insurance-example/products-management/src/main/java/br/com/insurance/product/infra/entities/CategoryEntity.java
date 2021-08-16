@@ -9,26 +9,41 @@ import java.util.UUID;
 @Table(name = "category")
 public class CategoryEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID categoryId;
+    @Id
+    @GeneratedValue
+    private UUID categoryId ;
+    private String categoryCode;
     private String categoryName;
     private String description;
     private Status status;
 
     public CategoryEntity(){}
 
-    public CategoryEntity(String categoryName, String description, Status status) {
+    public CategoryEntity(String categoryCode, String categoryName, String description, Status status) {
+        this.categoryCode = categoryCode;
         this.categoryName = categoryName;
         this.description = description;
         this.status = status;
     }
 
-    public UUID getCategoryId() {
+    public UUID CategoryCode() {
         return categoryId;
     }
 
     public String getCategoryName() {
         return categoryName;
+    }
+
+    public void setCategoryId(UUID categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryCode() {
+        return categoryCode;
+    }
+
+    public void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
     }
 
     public void setCategoryName(String categoryName) {

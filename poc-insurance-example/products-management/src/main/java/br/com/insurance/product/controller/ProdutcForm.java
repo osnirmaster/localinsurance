@@ -22,6 +22,7 @@ public class ProdutcForm {
     private int maxNumberOfInsured;
     private String icon;
     private UUID categoryId;
+    private String categoryCode;
     private LocalDateTime createdDate;
     private LocalDate validatyFrom;
     private LocalDate validatyUntil;
@@ -29,7 +30,6 @@ public class ProdutcForm {
     private BigDecimal price;
     private Status status;
     private UUID partnerId;
-
 
     public Meta getMetaData() {
         return metaData;
@@ -103,11 +103,11 @@ public class ProdutcForm {
         this.icon = icon;
     }
 
-    public UUID getCategory() {
+    public UUID getCategoryId() {
         return categoryId;
     }
 
-    public void setCategory(UUID category) {
+    public void setCategoryId(UUID category) {
         this.categoryId = category;
     }
 
@@ -159,17 +159,26 @@ public class ProdutcForm {
         this.status = status;
     }
 
-    public UUID getPartner() {
+    public UUID getPartnerId() {
         return partnerId;
     }
 
-    public void setPartner(UUID partner) {
+    public void setPartnerId(UUID partner) {
         this.partnerId = partner;
     }
 
+    public String getCategoryCode() {
+        return categoryCode;
+    }
+
+    public void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
+    }
+
     public Product convertTo(CategoryRepository categoryRepository, PartnersRepository partnersRepository){
-        Category category = categoryRepository.findByCategoryId(this.categoryId);
-        Partners partner = partnersRepository.findByPartnerId( this.partnerId);
+        Category category = new Category(categoryId);
+        System.out.println("Teste Cat: " + category.getCategoryId());
+        Partners partner = partnersRepository.findByPartnerId(partnerId);
 
         return new Product(this.metaData,
                             this.code,
@@ -184,6 +193,8 @@ public class ProdutcForm {
                             this.createdDate,
                             this.validatyFrom,
                             this.validatyUntil,
+                            this.version,
+                            this.price,
                             partner);
     }
 }

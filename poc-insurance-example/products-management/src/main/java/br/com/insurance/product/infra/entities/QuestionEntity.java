@@ -1,5 +1,7 @@
 package br.com.insurance.product.infra.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
@@ -8,21 +10,31 @@ import java.util.UUID;
 @Table(name = "question")
 public class QuestionEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "question_id", updatable = false, nullable = false)
     private UUID idQuestion;
     private String code;
     private int index;
     private String text;
     @ManyToOne
-    private ProductEntity productEntity;
+    @JoinColumn(name="product_id")
+    private ProductEntity product;
 
     public QuestionEntity(){}
 
-    public QuestionEntity(String code, int index, String text, ProductEntity productEntity) {
+    public QuestionEntity(String code,
+                          int index,
+                          String text,
+                          ProductEntity product) {
         this.code = code;
         this.index = index;
         this.text = text;
-        this.productEntity = productEntity;
+        this.product = product;
     }
 
 
@@ -59,11 +71,11 @@ public class QuestionEntity {
     }
 
     public ProductEntity getProductEntity() {
-        return productEntity;
+        return product;
     }
 
     public void setProductEntity(ProductEntity productEntity) {
-        this.productEntity = productEntity;
+        this.product= product;
     }
 
     @Override

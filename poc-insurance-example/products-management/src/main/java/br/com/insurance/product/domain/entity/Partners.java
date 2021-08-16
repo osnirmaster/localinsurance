@@ -1,7 +1,10 @@
 package br.com.insurance.product.domain.entity;
 
+import java.util.UUID;
+
 public class Partners {
 
+    private UUID partnerId;
     private String partnerName;
     private String description;
     private String paymentsMethod;
@@ -12,6 +15,14 @@ public class Partners {
         this.description = description;
         this.paymentsMethod = paymentsMethod;
         this.callbackUrl = callbackUrl;
+    }
+
+    public UUID getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(UUID partnerId) {
+        this.partnerId = partnerId;
     }
 
     public String getPartnerName() {

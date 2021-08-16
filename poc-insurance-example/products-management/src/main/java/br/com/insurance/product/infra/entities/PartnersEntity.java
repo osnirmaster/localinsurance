@@ -5,11 +5,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity(name = "Partner")
-@Table(name = "partners")
+@Table(name = "partner")
 public class PartnersEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID idPartner;
+    @Id
+    @GeneratedValue
+    private UUID partnerId;
     private String partnerName;
     private String description;
     private String paymentsMethod;
@@ -24,12 +25,12 @@ public class PartnersEntity {
         this.callbackUrl = callbackUrl;
     }
 
-    public UUID getIdPartner() {
-        return idPartner;
+    public UUID getPartnerId() {
+        return partnerId;
     }
 
-    public void setIdPartner(UUID idPartner) {
-        this.idPartner = idPartner;
+    public void setPartnerId(UUID partnerId) {
+        this.partnerId = partnerId;
     }
 
     public String getPartnerName() {
@@ -69,11 +70,11 @@ public class PartnersEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PartnersEntity that = (PartnersEntity) o;
-        return Objects.equals(idPartner, that.idPartner) && Objects.equals(partnerName, that.partnerName) && Objects.equals(description, that.description) && Objects.equals(paymentsMethod, that.paymentsMethod) && Objects.equals(callbackUrl, that.callbackUrl);
+        return Objects.equals(partnerId, that.partnerId) && Objects.equals(partnerName, that.partnerName) && Objects.equals(description, that.description) && Objects.equals(paymentsMethod, that.paymentsMethod) && Objects.equals(callbackUrl, that.callbackUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPartner, partnerName, description, paymentsMethod, callbackUrl);
+        return Objects.hash(partnerId, partnerName, description, paymentsMethod, callbackUrl);
     }
 }

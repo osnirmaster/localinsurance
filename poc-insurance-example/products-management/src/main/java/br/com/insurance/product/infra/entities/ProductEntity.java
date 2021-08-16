@@ -2,6 +2,7 @@ package br.com.insurance.product.infra.entities;
 
 import br.com.insurance.product.domain.entity.*;
 import br.com.insurance.product.domain.entity.Version;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -12,21 +13,29 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 
 @Entity(name = "Product")
 @Table(name = "product")
 public class ProductEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID idProductEntity;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "product_id", updatable = false, nullable = false)
+    @org.hibernate.annotations.Type(type="pg-uuid")
+    private UUID idProduct ;
     private Meta metaData;
     private String code;
     private String name;
     private String image;
     private String description;
     @OneToMany(mappedBy = "product")
-    private List<CoverEntity> coverEntity;
+    private List<CoverEntity> coverEntity = new ArrayList<>();
     @OneToMany(mappedBy = "product")
-    private List<QuestionEntity> questionEntity;
+    private List<QuestionEntity> questionEntity = new ArrayList<>();
     private int maxNumberOfInsured;
     private String icon;
     @ManyToOne
@@ -49,7 +58,8 @@ public class ProductEntity {
     public ProductEntity(Meta metaData, String code, String name, String image,
                    String description, List<CoverEntity> coverEntity, List<QuestionEntity> questionEntity,
                    int maxNumberOfInsured, String icon, CategoryEntity category, LocalDateTime createdDate,
-                   LocalDate validatyFrom, LocalDate validatyUntil, PartnersEntity partner) {
+                   LocalDate validatyFrom, LocalDate validatyUntil,
+                         Version version, BigDecimal price,PartnersEntity partner) {
         this.metaData = metaData;
         this.code = code;
         this.name = name;
@@ -63,11 +73,13 @@ public class ProductEntity {
         this.createdDate = createdDate;
         this.validatyFrom = validatyFrom;
         this.validatyUntil = validatyUntil;
+        this.version = version;
+        this.price = price;
         this.partner = partner;
     }
 
     public UUID getidProductEntity() {
-        return idProductEntity;
+        return idProduct;
     }
 
     public Meta getMetaData() {
@@ -94,7 +106,7 @@ public class ProductEntity {
         return coverEntity;
     }
 
-    public List<QuestionEntity> getQuestionEntitys() {
+    public List<QuestionEntity> getQuestionEntity() {
         return questionEntity;
     }
 
@@ -223,7 +235,7 @@ public class ProductEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductEntity that = (ProductEntity) o;
-        return maxNumberOfInsured == that.maxNumberOfInsured && Objects.equals(idProductEntity, that.idProductEntity) && Objects.equals(metaData, that.metaData) && Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(image, that.image) &&
+        return maxNumberOfInsured == that.maxNumberOfInsured && Objects.equals(idProduct, that.idProduct) && Objects.equals(metaData, that.metaData) && Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(image, that.image) &&
                 Objects.equals(description, that.description) && Objects.equals(coverEntity, that.coverEntity) &&
                 Objects.equals(questionEntity, that.questionEntity) && Objects.equals(icon, that.icon) &&
                 Objects.equals(category, that.category) && Objects.equals(createdDate, that.createdDate) &&
@@ -234,6 +246,23 @@ public class ProductEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProductEntity, metaData, code, name, image, description, coverEntity, questionEntity, maxNumberOfInsured, icon, category, createdDate, validatyFrom, validatyUntil, version, price, status, partner);
+        return Objects.hash(idProduct,
+                metaData,
+                code,
+                name,
+                image,
+                description,
+                coverEntity,
+                questionEntity,
+                maxNumberOfInsured,
+                icon,
+                category,
+                createdDate,
+                validatyFrom,
+                validatyUntil,
+                version,
+                price,
+                status,
+                partner);
     }
 }
