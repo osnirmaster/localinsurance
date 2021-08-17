@@ -5,9 +5,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class Product {
+    private UUID productId;
     private Meta metaData;
     private String code;
     private String name;
@@ -27,11 +29,12 @@ public class Product {
     private Partners partner;
 
 
-    public Product(Meta metaData, String code, String name, String image,
+    public Product(UUID productId,  Meta metaData, String code, String name, String image,
                    String description, List<Cover> covers, List<Question> questions,
                    int maxNumberOfInsured, String icon, Category category, LocalDateTime createdDate,
                    LocalDate validatyFrom, LocalDate validatyUntil, Version version,
                    BigDecimal price,Partners partner) {
+        this.productId = productId;
         this.metaData = metaData;
         this.code = code;
         this.name = name;
@@ -48,6 +51,14 @@ public class Product {
         this.version = version;
         this.price = price;
         this.partner = partner;
+    }
+
+    public UUID getProductId() {
+        return productId;
+    }
+
+    public void setProductId(UUID productId) {
+        this.productId = productId;
     }
 
     public Meta getMetaData() {

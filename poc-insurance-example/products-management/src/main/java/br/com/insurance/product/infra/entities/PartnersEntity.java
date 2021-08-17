@@ -18,7 +18,8 @@ public class PartnersEntity {
 
     public PartnersEntity(){}
 
-    public PartnersEntity(String partnerName, String description, String paymentsMethod, String callbackUrl) {
+    public PartnersEntity( UUID partnerId,String partnerName, String description, String paymentsMethod, String callbackUrl) {
+        this.partnerId = partnerId;
         this.partnerName = partnerName;
         this.description = description;
         this.paymentsMethod = paymentsMethod;

@@ -1,7 +1,8 @@
 package br.com.insurance.product.infra.converters;
 
 import br.com.insurance.product.domain.entity.Product;
-import br.com.insurance.product.domain.repository.CategoryRepository;
+import br.com.insurance.product.infra.db.CategoryRepositoryEntity;
+import br.com.insurance.product.infra.db.PartnersRepositoryEntity;
 import br.com.insurance.product.infra.entities.ProductEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,22 +14,27 @@ public class ProductEntityConverter {
     private final PartnersEntityConverter converterPartners;
     private final CategoryEntityConverter converterCategory;
     private final QuestionEntityConverter converterQuestion;
-    private final CategoryRepository categoryRepository;
+    private final CategoryRepositoryEntity categoryRepositoryEntity;
+    private final PartnersRepositoryEntity partnersRepositoryEntity;
     private CoverEntityConverter converterCover;
 
     public ProductEntityConverter(PartnersEntityConverter converterPartners,
                                   CategoryEntityConverter converterCategory,
                                   QuestionEntityConverter converterQuestion,
-                                  CategoryRepository categoryRepository) {
+                                  CategoryRepositoryEntity categoryRepositoryEntity,
+                                  PartnersRepositoryEntity partnersRepositoryEntity) {
         this.converterPartners = converterPartners;
         this.converterCategory = converterCategory;
         this.converterQuestion = converterQuestion;
-        this.categoryRepository = categoryRepository;
+        this.categoryRepositoryEntity = categoryRepositoryEntity;
+        this.partnersRepositoryEntity = partnersRepositoryEntity;
         ;
     }
 
     public Product convertToProduct(ProductEntity entity){
-        return new Product( entity.getMetaData(),
+        return new Product(
+                            entity.getProductId(),
+                            entity.getMetaData(),
                             entity.getCode(),
                             entity.getName(),
                             entity.getImage(),
@@ -54,6 +60,7 @@ public class ProductEntityConverter {
 
     public ProductEntity convertToProductEntity(Product product){
         return new ProductEntity(
+                product.getProductId(),
                 product.getMetaData(),
                 product.getCode(),
                 product.getName(),
@@ -69,12 +76,12 @@ public class ProductEntityConverter {
                         .collect(Collectors.toList()),
                 product.getMaxNumberOfInsured(),
                 product.getIcon(),
-                converterCategory.convertToCategoryEntity(product.getCategory()),
+                categoryRepositoryEntity.findByCategoryId(product.getCategory().getCategoryId()),
                 product.getCreatedDate(),
                 product.getValidatyFrom(),
                 product.getValidatyUntil(),
                 product.getVersion(),
                 product.getPrice(),
-                converterPartners.covertToPartnersEntity(product.getPartner()));
+                partnersRepositoryEntity.findByPartnerId(product.getPartner().getPartnerId()));
     }
 }

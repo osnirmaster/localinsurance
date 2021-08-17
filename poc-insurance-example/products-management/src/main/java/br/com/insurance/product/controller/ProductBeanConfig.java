@@ -12,25 +12,16 @@ import org.springframework.context.annotation.Configuration;
 public class ProductBeanConfig {
 
     private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
-    private final PartnersRepository partnersRepository;
 
-
-    public ProductBeanConfig(ProductRepository productRepository,
-                             CategoryRepository categoryRepository,
-                             PartnersRepository partnersRepository)
-  {
+    public ProductBeanConfig(ProductRepository productRepository)
+    {
         this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
-        this.partnersRepository = partnersRepository;
 
     }
 
     @Bean
     public RegisterBusinessProduct registerProduct(){
-        return new RegisterBusinessProduct( productRepository,
-                                            partnersRepository,
-                                            categoryRepository);
+        return new RegisterBusinessProduct( productRepository);
     }
 
 

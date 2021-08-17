@@ -1,4 +1,4 @@
-package br.com.insurance.product.controller;
+package br.com.insurance.product.adapters;
 
 import br.com.insurance.product.domain.entity.*;
 import br.com.insurance.product.domain.repository.CategoryRepository;
@@ -177,10 +177,12 @@ public class ProdutcForm {
 
     public Product convertTo(CategoryRepository categoryRepository, PartnersRepository partnersRepository){
         Category category = new Category(categoryId);
-        System.out.println("Teste Cat: " + category.getCategoryId());
+        System.out.println("Teste Cat: " + category.getCategoryName());
         Partners partner = partnersRepository.findByPartnerId(partnerId);
 
-        return new Product(this.metaData,
+        return new Product(
+                            null,
+                            this.metaData,
                             this.code,
                             this.name,
                             this.image,

@@ -10,7 +10,12 @@ public class Partners {
     private String paymentsMethod;
     private String callbackUrl;
 
-    public Partners(String partnerName, String description, String paymentsMethod, String callbackUrl) {
+    public Partners(UUID partnerId){
+        this.partnerId = partnerId;
+    }
+
+    public Partners(UUID partnerId,String partnerName, String description, String paymentsMethod, String callbackUrl) {
+        this.partnerId = partnerId;
         this.partnerName = partnerName;
         this.description = description;
         this.paymentsMethod = paymentsMethod;

@@ -26,7 +26,7 @@ public class ProductEntity {
     )
     @Column(name = "product_id", updatable = false, nullable = false)
     @org.hibernate.annotations.Type(type="pg-uuid")
-    private UUID idProduct ;
+    private UUID productId ;
     private Meta metaData;
     private String code;
     private String name;
@@ -55,11 +55,12 @@ public class ProductEntity {
     //JPA requires
     public ProductEntity(){}
 
-    public ProductEntity(Meta metaData, String code, String name, String image,
+    public ProductEntity(UUID productId, Meta metaData, String code, String name, String image,
                    String description, List<CoverEntity> coverEntity, List<QuestionEntity> questionEntity,
                    int maxNumberOfInsured, String icon, CategoryEntity category, LocalDateTime createdDate,
                    LocalDate validatyFrom, LocalDate validatyUntil,
                          Version version, BigDecimal price,PartnersEntity partner) {
+        this.productId = productId;
         this.metaData = metaData;
         this.code = code;
         this.name = name;
@@ -78,8 +79,16 @@ public class ProductEntity {
         this.partner = partner;
     }
 
-    public UUID getidProductEntity() {
-        return idProduct;
+    public UUID getProductId() {
+        return productId;
+    }
+
+    public void setProductId(UUID productId) {
+        this.productId = productId;
+    }
+
+    public void setQuestionEntity(List<QuestionEntity> questionEntity) {
+        this.questionEntity = questionEntity;
     }
 
     public Meta getMetaData() {
@@ -235,7 +244,7 @@ public class ProductEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductEntity that = (ProductEntity) o;
-        return maxNumberOfInsured == that.maxNumberOfInsured && Objects.equals(idProduct, that.idProduct) && Objects.equals(metaData, that.metaData) && Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(image, that.image) &&
+        return maxNumberOfInsured == that.maxNumberOfInsured && Objects.equals(productId, that.productId) && Objects.equals(metaData, that.metaData) && Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(image, that.image) &&
                 Objects.equals(description, that.description) && Objects.equals(coverEntity, that.coverEntity) &&
                 Objects.equals(questionEntity, that.questionEntity) && Objects.equals(icon, that.icon) &&
                 Objects.equals(category, that.category) && Objects.equals(createdDate, that.createdDate) &&
@@ -246,7 +255,7 @@ public class ProductEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProduct,
+        return Objects.hash(productId,
                 metaData,
                 code,
                 name,

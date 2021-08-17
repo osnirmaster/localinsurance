@@ -11,18 +11,15 @@ import java.util.UUID;
 public class RegisterBusinessProduct {
 
     private final ProductRepository productRepository;
-    private final PartnersRepository partnersRepository;
-    private final CategoryRepository categoryRepository;
 
-    public RegisterBusinessProduct(ProductRepository productRepository,
-                                   PartnersRepository partnersRepository,
-                                   CategoryRepository categoryRepository) {
+
+    public RegisterBusinessProduct(ProductRepository productRepository)
+    {
         this.productRepository = productRepository;
-        this.partnersRepository = partnersRepository;
-        this.categoryRepository = categoryRepository;
+
     }
 
-    public UUID cadastrarProduto(Product produto){
+    public Product cadastrarProduto(Product produto){
         return productRepository.save(produto);
     }
 

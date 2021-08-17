@@ -11,7 +11,9 @@ public class PartnersEntityConverter {
 
     public Partners convertToPartners(PartnersEntity entity){
 
-        return new Partners(entity.getPartnerName(),
+        return new Partners(
+                entity.getPartnerId(),
+                entity.getPartnerName(),
                 entity.getDescription(),
                 entity.getPaymentsMethod(),
                 entity.getCallbackUrl());
@@ -21,6 +23,7 @@ public class PartnersEntityConverter {
     public PartnersEntity covertToPartnersEntity( Partners partner){
 
         return new PartnersEntity(
+                    partner.getPartnerId(),
                     partner.getPartnerName(),
                     partner.getDescription(),
                     partner.getPaymentsMethod(),

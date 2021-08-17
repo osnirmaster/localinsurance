@@ -11,5 +11,5 @@ public interface ProductRepository {
 
     Product findByCode(String productCode);
 
-    UUID save(Product product);
+    Product save(Product product);
 }
