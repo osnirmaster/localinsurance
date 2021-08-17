@@ -57,7 +57,7 @@ public class ProductEntityConverter {
                             entity.getPrice(),
                             converterPartners.convertToPartners(entity.getPartner()));
     }
-//
+
     public ProductEntity convertToProductEntity(Product product){
         return new ProductEntity(
                 product.getProductId(),
