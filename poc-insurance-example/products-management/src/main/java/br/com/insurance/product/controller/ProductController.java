@@ -22,7 +22,7 @@ public class ProductController {
     private final RegisterBusinessProduct registerBusinessProduct;
     private final CategoryRepository categoryRepository;
     private final PartnersRepository partnersRepository;
-
+//
     public ProductController(RegisterBusinessProduct registerBusinessProduct, CategoryRepository categoryRepository, PartnersRepository partnersRepository) {
         this.registerBusinessProduct = registerBusinessProduct;
         this.categoryRepository = categoryRepository;
