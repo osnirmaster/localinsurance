@@ -1,7 +1,6 @@
 version: "3.5"
 
 services:
-  # Install postgres and setup the student database.
   postgres:
     container_name: postgres
     image: debezium/postgres
