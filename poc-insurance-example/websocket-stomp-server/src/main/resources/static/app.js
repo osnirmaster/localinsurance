@@ -13,13 +13,20 @@ function setConnected(connected) {
 }
 
 function connect() {
-    var socket = new SockJS('/gs-guide-websocket');
+    var socket = new SockJS('/secured/room');
     stompClient = Stomp.over(socket);
+    var sessionId = "";
     stompClient.connect({}, function (frame) {
-        setConnected(true);
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).content);
+        var url = stompClient.ws._transport.url;
+        url = url.replace("ws://localhost:8081/secured/room/",  "");
+        url = url.replace("/websocket", "");
+        url = url.replace(/^[0-9]+\//, "");
+        console.log("Your current session is: " + url);
+        sessionId = url;
+        stompClient.subscribe('/secured/user/queue/specific-user'
+          + '-user' + sessionId, function (msgOut) {
+             //handle messages
+             console.log("Received message: " +  msgOut);
         });
     });
 }
@@ -33,7 +40,9 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+    stompClient.send("/secured/room",
+    {}, JSON.stringify({ 'from': 'none','to': $("#name").val(), 'text': 'teste osn'}));
+
 }
 
 function showGreeting(message) {
