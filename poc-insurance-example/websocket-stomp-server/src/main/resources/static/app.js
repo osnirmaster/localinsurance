@@ -16,15 +16,20 @@ function connect() {
     var socket = new SockJS('/secured/room');
     stompClient = Stomp.over(socket);
     var sessionId = "";
-    stompClient.connect({}, function (frame) {
+    var id = $("#name").val();
+    var headers = {
+           uuid: id
+           };
+    stompClient.connect(headers, function (frame) {
         var url = stompClient.ws._transport.url;
+        console.log("frame " + frame.headers.get('user-name'));
         url = url.replace("ws://localhost:8081/secured/room/",  "");
         url = url.replace("/websocket", "");
         url = url.replace(/^[0-9]+\//, "");
         console.log("Your current session is: " + url);
         sessionId = url;
-        stompClient.subscribe('/secured/user/queue/specific-user'
-          + '-user' + sessionId, function (msgOut) {
+        stompClient.subscribe('/user/queue/response/completed'
+        , function (msgOut) {
              //handle messages
              console.log("Received message: " +  msgOut);
         });
@@ -40,8 +45,13 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/secured/room",
-    {}, JSON.stringify({ 'from': 'none','to': $("#name").val(), 'text': 'teste osn'}));
+    var id = $("#name").val();
+    var headers = {
+           uuid: id
+           };
+
+    stompClient.send("/app/quota/response",
+    headers, JSON.stringify({ 'from': 'none','to': $("#name").val(), 'text': 'teste osn'}));
 
 }
 
