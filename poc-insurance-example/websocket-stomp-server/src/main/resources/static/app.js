@@ -22,7 +22,7 @@ function connect() {
            };
     stompClient.connect(headers, function (frame) {
         var url = stompClient.ws._transport.url;
-        console.log("frame " + frame.headers.get('user-name'));
+        console.log("frame " + frame.headers['user-name']);
         url = url.replace("ws://localhost:8081/secured/room/",  "");
         url = url.replace("/websocket", "");
         url = url.replace(/^[0-9]+\//, "");
