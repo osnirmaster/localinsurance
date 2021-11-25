@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
-
+//test
 @Entity(name = "Quote")
 @Table(name = "quote")
 public class Quote {
