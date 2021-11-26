@@ -17,7 +17,7 @@ public class EventController {
 
     @GetMapping
     public String registerEvent() throws ExecutionException, InterruptedException {
-        producer.sendMessage("teste payload");
+       // producer.sendMessage("teste payload");
         return "ok";
     }
 }

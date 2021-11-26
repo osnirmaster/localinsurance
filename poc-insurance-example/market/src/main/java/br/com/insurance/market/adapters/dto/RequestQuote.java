@@ -9,10 +9,9 @@ import java.util.List;
 public class RequestQuote {
 
     private String productCode;
-    private LocalDate dataQuota;
     private LocalDate birthDate;
-    private String customerClient;
-    private String idCustomer;
+    private Integer customerId;
+    private String segmentCustomerCode;
     private List<CreditContract> contracts;
 
     public String getProductCode() {
@@ -23,14 +22,6 @@ public class RequestQuote {
         this.productCode = productCode;
     }
 
-    public LocalDate getDataQuota() {
-        return dataQuota;
-    }
-
-    public void setDataQuota(LocalDate dataQuota) {
-        this.dataQuota = dataQuota;
-    }
-
     public LocalDate getBirthDate() {
         return birthDate;
     }
@@ -39,20 +30,12 @@ public class RequestQuote {
         this.birthDate = birthDate;
     }
 
-    public String getCustomerClient() {
-        return customerClient;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerClient(String customerClient) {
-        this.customerClient = customerClient;
-    }
-
-    public String getIdCustomer() {
-        return idCustomer;
-    }
-
-    public void setIdCustomer(String idCustomer) {
-        this.idCustomer = idCustomer;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
     public List<CreditContract> getContracts() {
@@ -63,7 +46,19 @@ public class RequestQuote {
         this.contracts = contracts;
     }
 
+    public String getSegmentCustomerCode() {
+        return segmentCustomerCode;
+    }
+
+    public void setSegmentCustomerCode(String segmentCustomerCode) {
+        this.segmentCustomerCode = segmentCustomerCode;
+    }
+
     public Quote convertTo(){
-        return new Quote();
+        return new Quote(this.productCode,
+                this.birthDate,
+                this.customerId,
+                this.segmentCustomerCode,
+                this.contracts);
     }
 }

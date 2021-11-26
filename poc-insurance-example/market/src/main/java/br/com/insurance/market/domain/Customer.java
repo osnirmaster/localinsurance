@@ -6,17 +6,19 @@ import java.util.List;
 
 public class Customer {
 
+	private Integer customerId;
 	private String name;
 	private String sublime;
-	private Date bornDate;
+	private Date birthDate;
 	private List<String> appointments = new ArrayList<>();
 	
 	
 	
-	public Customer(String name, String sublime, Date bornDate, List<String> appointments) {
+	public Customer(Integer customerId,String name, String sublime, Date birthDate, List<String> appointments) {
+	    this.customerId = customerId;
 		this.name = name;
 		this.sublime = sublime;
-		this.bornDate = bornDate;
+		this.birthDate = birthDate;
 		this.appointments = appointments;
 	}
 
@@ -41,13 +43,13 @@ public class Customer {
 	}
 
 
-	public Date getBornDate() {
-		return bornDate;
+	public Date getbirthDate() {
+		return birthDate;
 	}
 
 
-	public void setBornDate(Date bornDate) {
-		this.bornDate = bornDate;
+	public void setbirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 
@@ -55,13 +57,23 @@ public class Customer {
 		return appointments;
 	}
 
-
 	public void setAppointments(List<String> appointments) {
 		this.appointments = appointments;
 	}
-	
-	
-	
-	
-	
+
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
 }

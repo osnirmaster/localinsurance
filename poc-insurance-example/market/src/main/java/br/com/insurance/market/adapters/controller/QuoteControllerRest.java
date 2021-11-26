@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/insurance/quote")
 public class QuoteControllerRest {
@@ -23,7 +25,9 @@ public class QuoteControllerRest {
 
     @PostMapping
     public ResponseEntity<ResponseQuote> price(@RequestBody RequestQuote request, UriComponentsBuilder uriBuilder){
-        Quote quote = getQuoteCalculation.insuranceQuote()
+
+
+        Quote quote = getQuoteCalculation.insuranceQuote(request);
 
         URI uri = uriBuilder.path("/quote/{id}").buildAndExpand(productSaved.getProductId()).toUri();
         return ResponseEntity.created(uri).body(new ProductDto(productSaved))
