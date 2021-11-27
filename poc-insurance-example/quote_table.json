@@ -1,0 +1,27 @@
+{
+    "TableName": "Quote",
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "customer_id",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "quote_id",
+      "AttributeType": "S"
+    }
+  ],
+  "KeySchema": [
+    {
+      "AttributeName": "customer_id",
+      "KeyType": "HASH"
+    },
+    {
+      "AttributeName": "quote_id",
+      "KeyType": "RANGE"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}
