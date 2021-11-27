@@ -9,6 +9,8 @@ import br.com.insurance.market.domain.service.GetCustomer;
 import br.com.insurance.market.domain.service.CustomerEligibility;
 import br.com.insurance.market.infra.db.repository.QuoteRepository;
 
+import java.util.concurrent.ExecutionException;
+
 public class GetQuoteCalculation {
 
     private final QuoteRepository quoteRepository;
@@ -28,7 +30,7 @@ public class GetQuoteCalculation {
         this.commandBroker = commandBroker;
     }
 
-    public Quote insuranceQuote(RequestQuote payload){
+    public Quote insuranceQuote(RequestQuote payload) throws ExecutionException, InterruptedException {
         Quote quote = payload.convertTo();
 
         Customer customer = getCustomer.getCustomer(quote.getCustomerId());
