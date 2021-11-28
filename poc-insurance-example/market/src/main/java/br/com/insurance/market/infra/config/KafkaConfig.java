@@ -14,21 +14,21 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
-public class KafkaConfig {
-
-    @Bean
-    public ProducerFactory<Integer, CreditContract> producerFactory(){
-
-        Map<String,Object> config = new HashMap<>();
-        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
-        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-
-        return new DefaultKafkaProducerFactory<>(config);
-    }
-
-    @Bean
-    public KafkaTemplate<Integer, CreditContract> kafkaTemplate(){
-        return new KafkaTemplate<>(producerFactory());
-    }
-}
+//@Configuration
+//public class KafkaConfig {
+//
+//    @Bean
+//    public ProducerFactory<Integer, CreditContract> producerFactory(){
+//
+//        Map<String,Object> config = new HashMap<>();
+//        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
+//        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+//
+//        return new DefaultKafkaProducerFactory<>(config);
+//    }
+//
+//    @Bean
+//    public KafkaTemplate<Integer, CreditContract> kafkaTemplate(){
+//        return new KafkaTemplate<>(producerFactory());
+//    }
+//}

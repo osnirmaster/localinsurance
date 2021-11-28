@@ -1,4 +1,4 @@
-package br.com.insurance.market.usecase;
+package br.com.insurance.market.domain.usecase;
 
 import br.com.insurance.market.adapters.dto.RequestQuote;
 import br.com.insurance.market.domain.Customer;
@@ -7,10 +7,12 @@ import br.com.insurance.market.domain.service.CommandBroker;
 import br.com.insurance.market.domain.service.CoverTax;
 import br.com.insurance.market.domain.service.GetCustomer;
 import br.com.insurance.market.domain.service.CustomerEligibility;
-import br.com.insurance.market.infra.db.repository.QuoteRepository;
+import br.com.insurance.market.infra.db.repositories.QuoteRepository;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutionException;
 
+@Slf4j
 public class GetQuoteCalculation {
 
     private final QuoteRepository quoteRepository;
@@ -22,7 +24,8 @@ public class GetQuoteCalculation {
     public GetQuoteCalculation(QuoteRepository quoteRepository,
                                GetCustomer getCustomer,
                                CoverTax coverTax,
-                               CustomerEligibility customerEligibility, CommandBroker commandBroker) {
+                               CustomerEligibility customerEligibility,
+                               CommandBroker commandBroker) {
         this.quoteRepository = quoteRepository;
         this.getCustomer = getCustomer;
         this.coverTax = coverTax;
@@ -38,6 +41,8 @@ public class GetQuoteCalculation {
         coverTax.getCoverTax(quote.getproductCode());
 
         quote.sendContractForCaculation(commandBroker);
+        log.info("Mapeamento objeto {}", quote );
+        log.info("Preparando para armazenar...");
 
         return quoteRepository.save(quote);
     }

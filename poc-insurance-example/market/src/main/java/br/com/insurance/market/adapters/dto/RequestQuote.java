@@ -2,9 +2,11 @@ package br.com.insurance.market.adapters.dto;
 
 import br.com.insurance.market.domain.CreditContract;
 import br.com.insurance.market.domain.Quote;
+import br.com.insurance.market.infra.db.QuoteId;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public class RequestQuote {
 
@@ -55,7 +57,11 @@ public class RequestQuote {
     }
 
     public Quote convertTo(){
-        return new Quote(this.productCode,
+        QuoteId quoteId = new QuoteId(this.customerId, UUID.randomUUID());
+
+        return new Quote(
+                quoteId,
+                this.productCode,
                 this.birthDate,
                 this.customerId,
                 this.segmentCustomerCode,

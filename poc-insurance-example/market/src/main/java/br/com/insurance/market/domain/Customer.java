@@ -1,5 +1,6 @@
 package br.com.insurance.market.domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,12 +10,12 @@ public class Customer {
 	private Integer customerId;
 	private String name;
 	private String sublime;
-	private Date birthDate;
+	private LocalDate birthDate;
 	private List<String> appointments = new ArrayList<>();
 	
 	
 	
-	public Customer(Integer customerId,String name, String sublime, Date birthDate, List<String> appointments) {
+	public Customer(Integer customerId, String name, String sublime, LocalDate birthDate, List<String> appointments) {
 	    this.customerId = customerId;
 		this.name = name;
 		this.sublime = sublime;
@@ -43,12 +44,12 @@ public class Customer {
 	}
 
 
-	public Date getbirthDate() {
+	public LocalDate getbirthDate() {
 		return birthDate;
 	}
 
 
-	public void setbirthDate(Date birthDate) {
+	public void setbirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -69,11 +70,11 @@ public class Customer {
 		this.customerId = customerId;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 }
