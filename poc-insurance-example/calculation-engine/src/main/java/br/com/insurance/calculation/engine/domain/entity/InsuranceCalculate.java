@@ -1,9 +1,9 @@
-package br.com.insurance.calculation.engine.listener;
+package br.com.insurance.calculation.engine.domain.entity;
 
 
 import br.com.insurance.calculation.engine.domain.CreditContract;
 
-public class CommandCalculationSchemaJson {
+public class InsuranceCalculate {
 
     private String customerId;
     private String quoteId;

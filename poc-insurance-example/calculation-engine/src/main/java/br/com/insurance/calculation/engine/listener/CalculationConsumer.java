@@ -1,5 +1,6 @@
 package br.com.insurance.calculation.engine.listener;
 
+import br.com.insurance.calculation.engine.domain.entity.InsuranceCalculate;
 import org.hibernate.exception.JDBCConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ public class CalculationConsumer {
 
 
     @KafkaListener(topics = "${app.topico-cliente}")
-    public void consumir(@Payload CommandCalculationSchemaJson message,
+    public void consumir(@Payload InsuranceCalculate message,
                          @Header(value = KafkaHeaders.RECEIVED_MESSAGE_KEY, required = false) String key,
                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topico,
                          @Header(KafkaHeaders.RECEIVED_TIMESTAMP) long ts,
