@@ -10,6 +10,7 @@ import br.com.insurance.market.domain.service.CustomerEligibility;
 import br.com.insurance.market.infra.db.repositories.QuoteRepository;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
@@ -37,12 +38,15 @@ public class GetQuoteCalculation {
         Quote quote = payload.convertTo();
 
         Customer customer = getCustomer.getCustomer(quote.getCustomerId());
-        customerEligibility.getEligibility(customer);
-        coverTax.getCoverTax(quote.getproductCode());
+        if(customerEligibility.getEligibility(customer)) {
 
-        quote.sendContractForCaculation(commandBroker);
-        log.info("Mapeamento objeto {}", quote );
-        log.info("Preparando para armazenar...");
+            quote.addCoverTax(coverTax.getCoverTax(quote.getproductCode()));
+            quote.setQuoteId(UUID.randomUUID().toString());
+            quote.sendContractForCaculation(commandBroker);
+            log.info("Mapeamento objeto {}", quote );
+            log.info("Preparando para armazenar...");
+        }
+
 
         return quoteRepository.save(quote);
     }

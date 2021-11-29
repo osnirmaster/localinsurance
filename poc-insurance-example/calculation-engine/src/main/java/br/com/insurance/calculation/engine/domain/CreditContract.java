@@ -1,4 +1,4 @@
-package br.com.insurance.market.domain;
+package br.com.insurance.calculation.engine.domain;
 
 import java.math.BigDecimal;
 
@@ -9,7 +9,6 @@ public class CreditContract {
     private Integer creditParcelAmount;
     private BigDecimal creditPriceTotal;
     private BigDecimal creditPriceParcel;
-
 
     public String getCreditAgreementId() {
         return creditAgreementId;
@@ -50,5 +49,4 @@ public class CreditContract {
     public void setCreditPriceParcel(BigDecimal creditPriceParcel) {
         this.creditPriceParcel = creditPriceParcel;
     }
-
 }

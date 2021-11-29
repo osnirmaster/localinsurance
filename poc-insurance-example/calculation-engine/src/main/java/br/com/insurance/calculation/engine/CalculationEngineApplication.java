@@ -1,17 +1,13 @@
-package br.com.insurance.market;
+package br.com.insurance.calculation.engine;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.producer.KafkaProducer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.kafka.annotation.EnableKafka;
 
-
 @EnableKafka
 @SpringBootApplication
-public class MarketApplication {
+public class CalculationEngineApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MarketApplication.class, args);
+        SpringApplication.run(CalculationEngineApplication.class, args);
     }
-
 }

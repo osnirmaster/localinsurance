@@ -2,21 +2,21 @@
     "TableName": "Quote",
   "AttributeDefinitions": [
     {
-      "AttributeName": "customer_id",
+      "AttributeName": "customerId",
       "AttributeType": "S"
     },
     {
-      "AttributeName": "quote_id",
+      "AttributeName": "quoteId",
       "AttributeType": "S"
     }
   ],
   "KeySchema": [
     {
-      "AttributeName": "customer_id",
+      "AttributeName": "customerId",
       "KeyType": "HASH"
     },
     {
-      "AttributeName": "quote_id",
+      "AttributeName": "quoteId",
       "KeyType": "RANGE"
     }
   ],

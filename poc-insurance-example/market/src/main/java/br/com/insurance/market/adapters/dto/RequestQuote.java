@@ -6,13 +6,12 @@ import br.com.insurance.market.infra.db.QuoteId;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 public class RequestQuote {
 
     private String productCode;
     private LocalDate birthDate;
-    private Integer customerId;
+    private String customerId;
     private String segmentCustomerCode;
     private List<CreditContract> contracts;
 
@@ -32,11 +31,11 @@ public class RequestQuote {
         this.birthDate = birthDate;
     }
 
-    public Integer getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
@@ -57,13 +56,13 @@ public class RequestQuote {
     }
 
     public Quote convertTo(){
-        QuoteId quoteId = new QuoteId(this.customerId, UUID.randomUUID());
+        QuoteId quoteId = new QuoteId();
+        quoteId.setCustomerId(this.customerId);
 
         return new Quote(
                 quoteId,
                 this.productCode,
                 this.birthDate,
-                this.customerId,
                 this.segmentCustomerCode,
                 this.contracts);
     }

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Component
 public class GetCustomerBank implements GetCustomer {
     @Override
-    public Customer getCustomer(Integer customerId) {
+    public Customer getCustomer(String customerId) {
         return new Customer(
                 101010,
                 "Osnir",

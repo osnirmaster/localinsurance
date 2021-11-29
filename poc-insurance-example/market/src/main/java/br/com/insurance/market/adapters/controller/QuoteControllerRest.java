@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -21,17 +22,12 @@ public class QuoteControllerRest {
     @Autowired
     private  GetQuoteCalculation getQuoteCalculation;
 
-//    public QuoteControllerRest(GetQuoteCalculation getQuoteCalculation) {
-//        this.getQuoteCalculation = getQuoteCalculation;
-//    }
-
     @PostMapping
-    public ResponseEntity<ResponseQuote> price(@RequestBody RequestQuote request, UriComponentsBuilder uriBuilder) throws ExecutionException, InterruptedException {
+    public ResponseEntity price(@RequestBody RequestQuote request, UriComponentsBuilder uriBuilder) throws ExecutionException, InterruptedException {
 
-          Quote quote = getQuoteCalculation.insuranceQuote(request);
-//
-//        URI uri = uriBuilder.path("/quote/{id}").buildAndExpand(productSaved.getProductId()).toUri();
-//        return ResponseEntity.created(uri).body(new ProductDto(productSaved));
-        return (ResponseEntity<ResponseQuote>) ResponseEntity.ok();
+        Quote quote = getQuoteCalculation.insuranceQuote(request);
+        URI uri = uriBuilder.path("/quote/{id}").buildAndExpand(quote.getQuoteId()).toUri();
+        return ResponseEntity.created(uri).body(uri);
+
     }
 }

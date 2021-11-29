@@ -4,5 +4,5 @@ import br.com.insurance.market.domain.Customer;
 
 public interface GetCustomer {
 
-    Customer getCustomer(Integer customerId);
+    Customer getCustomer(String customerId);
 }
