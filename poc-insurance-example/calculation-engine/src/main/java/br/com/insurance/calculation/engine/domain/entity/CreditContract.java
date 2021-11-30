@@ -1,4 +1,4 @@
-package br.com.insurance.calculation.engine.domain;
+package br.com.insurance.calculation.engine.domain.entity;
 
 import java.math.BigDecimal;
 

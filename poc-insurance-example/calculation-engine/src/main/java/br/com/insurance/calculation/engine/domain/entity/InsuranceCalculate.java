@@ -1,13 +1,12 @@
 package br.com.insurance.calculation.engine.domain.entity;
 
 
-import br.com.insurance.calculation.engine.domain.CreditContract;
-
 public class InsuranceCalculate {
 
     private String customerId;
     private String quoteId;
     private Double coverTax;
+    private String productCode;
     private CreditContract creditContract;
 
 
@@ -37,5 +36,21 @@ public class InsuranceCalculate {
 
     public CreditContract getCreditContract() {
         return creditContract;
+    }
+
+    public void setCoverTax(Double coverTax) {
+        this.coverTax = coverTax;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public void setCreditContract(CreditContract creditContract) {
+        this.creditContract = creditContract;
     }
 }

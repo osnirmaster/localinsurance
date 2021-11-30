@@ -9,6 +9,13 @@ public class TermFeeId implements Serializable {
     public String productCode;
     public Integer timeDays;
 
+    public TermFeeId(){}
+
+    public TermFeeId(String productCode, Integer timeDays) {
+        this.productCode = productCode;
+        this.timeDays = timeDays;
+    }
+
     @DynamoDBHashKey(attributeName = "productCode")
     public String getProductCode() {
         return productCode;
