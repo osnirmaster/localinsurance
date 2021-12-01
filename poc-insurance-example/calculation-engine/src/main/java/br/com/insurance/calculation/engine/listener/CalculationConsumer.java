@@ -37,8 +37,8 @@ public class CalculationConsumer {
                          Acknowledgment ack){
         try{
             logger.info("Iniciando consumo do tópico {}, key {}, Numero do contrato {}", topico, key, message.getCreditContract().getCreditAgreementId() );
-            calculation.toCalculate(message);
-            restTemplate.patchForObject("http://localhost:8095/insurance/quote", ,Quote.class);
+             Quote quote = calculation.toCalculate(message);
+            restTemplate.patchForObject("http://localhost:8095/insurance/quote", quote ,Quote.class);
 
             ack.acknowledge();
             logger.info("Commit realizado");
