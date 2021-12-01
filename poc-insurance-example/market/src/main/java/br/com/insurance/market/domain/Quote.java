@@ -21,12 +21,6 @@ public class Quote {
     @DynamoDBTypeConvertedEnum
     @DynamoDBAttribute
     private QuoteStatus status = QuoteStatus.PENDENT;
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
-    @DynamoDBAttribute
-    private BigDecimal insurancePriceTotal;
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
-    @DynamoDBAttribute
-    private BigDecimal insurancePriceParcel;
     @DynamoDBTypeConvertedJson
     @DynamoDBAttribute
     private List<CreditContract> creditContracts;
@@ -40,6 +34,9 @@ public class Quote {
     private LocalDate birthDateCustomer;
     @DynamoDBAttribute
     private Double coverTax;
+    @DynamoDBTypeConvertedJson
+    @DynamoDBAttribute
+    private CreditContractParcel creditContractParcel;
 
     public Quote(){}
 
@@ -54,23 +51,23 @@ public class Quote {
         this.productCode = productCode;
         this.creditContracts = creditContracts;
         this.segmentCustomerCode = segmentCustomerCode;
-        this.birthDateCustomer = birthDateCustomer;
     }
 
     public Quote(String productCode,
-                 BigDecimal insurancePriceTotal,
-                 BigDecimal insurancePriceParcel,
                  List<CreditContract> creditContracts,
                  LocalDate dateQuote,
                  LocalDate birthDateCustomer) {
         this.productCode = productCode;
-        this.insurancePriceTotal = insurancePriceTotal;
-        this.insurancePriceParcel = insurancePriceParcel;
         this.creditContracts = creditContracts;
         this.dateQuote = dateQuote;
         this.birthDateCustomer = birthDateCustomer;
     }
 
+    public Quote(QuoteId quoteId, String productCode, CreditContractParcel parcels) {
+        this.id = quoteId;
+        this.productCode = productCode;
+        this.creditContractParcel = parcels;
+    }
 
 
     public String getproductCode() {
@@ -87,22 +84,6 @@ public class Quote {
 
     public void setStatus(QuoteStatus status) {
         this.status = status;
-    }
-
-    public BigDecimal getInsurancePriceTotal() {
-        return insurancePriceTotal;
-    }
-
-    public void setInsurancePriceTotal(BigDecimal insurancePriceTotal) {
-        this.insurancePriceTotal = insurancePriceTotal;
-    }
-
-    public BigDecimal getInsurancePriceParcel() {
-        return insurancePriceParcel;
-    }
-
-    public void setInsurancePriceParcel(BigDecimal insurancePriceParcel) {
-        this.insurancePriceParcel = insurancePriceParcel;
     }
 
     public LocalDate getDateQuote() {
@@ -171,12 +152,20 @@ public class Quote {
         this.coverTax = coverTax;
     }
 
+    public CreditContractParcel getCreditContractParcel() {
+        return creditContractParcel;
+    }
+
+    public void setCreditContractParcel(CreditContractParcel creditContractParcel) {
+        this.creditContractParcel = creditContractParcel;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Quote quote = (Quote) o;
-        return Objects.equals(id, quote.id) && Objects.equals(productCode, quote.productCode) && status == quote.status && Objects.equals(insurancePriceTotal, quote.insurancePriceTotal) && Objects.equals(insurancePriceParcel, quote.insurancePriceParcel) && Objects.equals(creditContracts, quote.creditContracts) && Objects.equals(dateQuote, quote.dateQuote) && Objects.equals(segmentCustomerCode, quote.segmentCustomerCode) && Objects.equals(birthDateCustomer, quote.birthDateCustomer);
+        return Objects.equals(id, quote.id) && Objects.equals(productCode, quote.productCode) && status == quote.status && Objects.equals(creditContracts, quote.creditContracts) && Objects.equals(dateQuote, quote.dateQuote) && Objects.equals(segmentCustomerCode, quote.segmentCustomerCode) && Objects.equals(birthDateCustomer, quote.birthDateCustomer) && Objects.equals(coverTax, quote.coverTax) ;
     }
 
     @Override
@@ -184,8 +173,6 @@ public class Quote {
         return Objects.hash(
                 productCode,
                 status,
-                insurancePriceTotal,
-                insurancePriceParcel,
                 creditContracts,
                 dateQuote,
                 birthDateCustomer);

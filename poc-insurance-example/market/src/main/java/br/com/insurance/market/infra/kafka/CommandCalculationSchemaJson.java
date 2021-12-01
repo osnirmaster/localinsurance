@@ -9,6 +9,7 @@ public class CommandCalculationSchemaJson {
 
     private String customerId;
     private String quoteId;
+    private String productCode;
     private Double coverTax;
     private CreditContract creditContract;
 
@@ -16,6 +17,7 @@ public class CommandCalculationSchemaJson {
     public CommandCalculationSchemaJson(Quote quote){
         this.customerId = quote.getCustomerId();
         this.quoteId = quote.getQuoteId();
+        this.productCode = quote.getproductCode();
         this.coverTax = quote.getCoverTax();
     }
 
@@ -46,5 +48,13 @@ public class CommandCalculationSchemaJson {
 
     public CreditContract getCreditContract() {
         return creditContract;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 }

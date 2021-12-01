@@ -14,6 +14,7 @@ public class RequestQuote {
     private String customerId;
     private String segmentCustomerCode;
     private List<CreditContract> contracts;
+    private List<CalculatedQuote> calculatedQuotes;
 
     public String getProductCode() {
         return productCode;

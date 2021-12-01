@@ -1,7 +1,10 @@
 package br.com.insurance.calculation.engine.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Quote {
 
     private String customerId;
@@ -59,5 +62,16 @@ public class Quote {
 
     public void setParcel(List<Parcel> parcel) {
         this.parcel = parcel;
+    }
+
+    @Override
+    public String toString() {
+        return "Value{" +
+                "customerId='" + customerId + '\'' +
+                ", quoteId='" + quoteId + '\'' +
+                ", productCode='" + productCode + '\'' +
+                ", creditContract=" + creditContract +
+                ", parcel=" + parcel +
+                '}';
     }
 }
