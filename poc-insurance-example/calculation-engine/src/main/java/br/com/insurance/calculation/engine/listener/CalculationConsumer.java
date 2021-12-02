@@ -1,7 +1,7 @@
 package br.com.insurance.calculation.engine.listener;
 
 import br.com.insurance.calculation.engine.domain.entity.InsuranceCalculate;
-import br.com.insurance.calculation.engine.domain.entity.Quote;
+import br.com.insurance.calculation.engine.domain.entity.UpdateQuote;
 import br.com.insurance.calculation.engine.domain.usecase.CalculationByContractCredit;
 import com.amazonaws.AmazonServiceException;
 import org.slf4j.Logger;
@@ -28,8 +28,7 @@ public class CalculationConsumer {
         this.calculation = calculation;
     }
 
-
-    @KafkaListener(topics = "${app.topico-cliente}")
+    @KafkaListener(topics = "${app.topico-calculator}")
     public void consumir(@Payload InsuranceCalculate message,
                          @Header(value = KafkaHeaders.RECEIVED_MESSAGE_KEY, required = false) String key,
                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topico,
@@ -37,8 +36,10 @@ public class CalculationConsumer {
                          Acknowledgment ack){
         try{
             logger.info("Iniciando consumo do tópico {}, key {}, Numero do contrato {}", topico, key, message.getCreditContract().getCreditAgreementId() );
-             Quote quote = calculation.toCalculate(message);
-            restTemplate.patchForObject("http://localhost:8095/insurance/quote", quote ,Quote.class);
+            UpdateQuote quote = calculation.toCalculate(message);
+            logger.info("Atualizando Cotação: {}", quote);
+
+            restTemplate.put("http://localhost:8099/insurance/quote/1", quote , UpdateQuote.class);;
 
             ack.acknowledge();
             logger.info("Commit realizado");

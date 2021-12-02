@@ -1,4 +1,4 @@
-package br.com.insurance.calculation.engine.infra.db.spring.repository;
+package br.com.insurance.calculation.engine.infra.db.spring.repositories;
 
 import br.com.insurance.calculation.engine.domain.entity.TermFeeId;
 import br.com.insurance.calculation.engine.domain.entity.TermFeeTax;

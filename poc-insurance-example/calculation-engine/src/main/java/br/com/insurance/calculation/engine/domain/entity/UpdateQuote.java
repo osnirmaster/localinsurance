@@ -4,24 +4,21 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Quote {
+public class UpdateQuote {
 
     private String customerId;
     private String quoteId;
     private String productCode;
-    private CreditContract creditContract;
-    private List<Parcel> parcel ;
+    private CreditContractParcel creditContractParcel;
 
-    public Quote() {
+    public UpdateQuote() {
     }
 
-    public Quote(String customerId, String quoteId, String productCode, CreditContract creditContract, List<Parcel> parcel) {
+    public UpdateQuote(String customerId, String quoteId, String productCode, CreditContractParcel creditContractParcel) {
         this.customerId = customerId;
         this.quoteId = quoteId;
         this.productCode = productCode;
-        this.creditContract = creditContract;
-        this.parcel = parcel;
+        this.creditContractParcel = creditContractParcel;
     }
 
     public String getCustomerId() {
@@ -48,21 +45,14 @@ public class Quote {
         this.productCode = productCode;
     }
 
-    public CreditContract getCreditContract() {
-        return creditContract;
+    public CreditContractParcel getCreditContractParcel() {
+        return creditContractParcel;
     }
 
-    public void setCreditContract(CreditContract creditContract) {
-        this.creditContract = creditContract;
+    public void setCreditContractParcel(CreditContractParcel creditContractParcel) {
+        this.creditContractParcel = creditContractParcel;
     }
 
-    public List<Parcel> getParcel() {
-        return parcel;
-    }
-
-    public void setParcel(List<Parcel> parcel) {
-        this.parcel = parcel;
-    }
 
     @Override
     public String toString() {
@@ -70,8 +60,7 @@ public class Quote {
                 "customerId='" + customerId + '\'' +
                 ", quoteId='" + quoteId + '\'' +
                 ", productCode='" + productCode + '\'' +
-                ", creditContract=" + creditContract +
-                ", parcel=" + parcel +
+                ", creditContract=" + creditContractParcel +
                 '}';
     }
 }

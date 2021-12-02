@@ -1,15 +1,12 @@
 package br.com.insurance.calculation.engine.domain.usecase;
 
 import br.com.insurance.calculation.engine.domain.entity.*;
-import br.com.insurance.calculation.engine.domain.repository.TermFeeTaxRespository;
-import br.com.insurance.calculation.engine.infra.db.spring.repository.SpringTermFeeRepository;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
+import br.com.insurance.calculation.engine.infra.db.spring.repositories.SpringTermFeeRepository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class CalculationByContractCredit {
 
@@ -19,7 +16,7 @@ public class CalculationByContractCredit {
         this.termFeeTaxRespository = termFeeTaxRespository;
     }
 
-    public Quote toCalculate(InsuranceCalculate quote){
+    public UpdateQuote toCalculate(InsuranceCalculate quote){
 
         List<Parcel> parcels = new ArrayList<>();
         for (int i = 0; i <= quote.getCreditContract().getCreditParcelAmount() ; i++) {
@@ -37,13 +34,15 @@ public class CalculationByContractCredit {
                parcels.add(new Parcel(i, priceCoverTax.add(priceTaxFee)));
            }
 
-           return new Quote(
+           return new UpdateQuote(
                    quote.getCustomerId(),
                    quote.getQuoteId(),
                    quote.getProductCode(),
-                   quote.getCreditContract(),
-                   parcels);
+                   new CreditContractParcel(quote.getCreditContract()
+                           .getCreditAgreementId(),
+                           parcels)
+           );
         }
-        return new Quote();
+        return new UpdateQuote();
     }
 }

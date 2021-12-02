@@ -1,4 +1,4 @@
-package br.com.insurance.calculation.engine.config;
+package br.com.insurance.calculation.engine.infra.db.spring.repositories.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

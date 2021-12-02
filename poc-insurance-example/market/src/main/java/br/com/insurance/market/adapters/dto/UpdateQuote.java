@@ -22,4 +22,14 @@ public class UpdateQuote {
                 this.productCode,
                 this.creditContractParcel);
     }
+
+    @Override
+    public String toString() {
+        return "Values{" +
+                "customerId='" + customerId + '\'' +
+                ", quoteId='" + quoteId + '\'' +
+                ", productCode='" + productCode + '\'' +
+                ", creditContractParcel=" + creditContractParcel +
+                '}';
+    }
 }
