@@ -2,12 +2,14 @@ package br.com.insurance.calculation.engine.domain.usecase;
 
 import br.com.insurance.calculation.engine.domain.entity.*;
 import br.com.insurance.calculation.engine.infra.db.spring.repositories.SpringTermFeeRepository;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class CalculationByContractCredit {
 
     private final SpringTermFeeRepository termFeeTaxRespository;
@@ -30,8 +32,10 @@ public class CalculationByContractCredit {
                BigDecimal priceCoverTax = quote.getCreditContract()
                        .getCreditPriceTotal()
                        .multiply(BigDecimal.valueOf(quote.getCoverTax()));
-
-               parcels.add(new Parcel(i, priceCoverTax.add(priceTaxFee)));
+               log.info("ammount: {}", i);
+               parcels.add(new Parcel(quote.getCreditContract()
+                       .getCreditParcelAmount(),
+                       priceCoverTax.add(priceTaxFee)));
            }
 
            return new UpdateQuote(

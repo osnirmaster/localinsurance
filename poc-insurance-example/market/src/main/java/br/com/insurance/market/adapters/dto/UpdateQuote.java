@@ -23,6 +23,38 @@ public class UpdateQuote {
                 this.creditContractParcel);
     }
 
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getQuoteId() {
+        return quoteId;
+    }
+
+    public void setQuoteId(String quoteId) {
+        this.quoteId = quoteId;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public CreditContractParcel getCreditContractParcel() {
+        return creditContractParcel;
+    }
+
+    public void setCreditContractParcel(CreditContractParcel creditContractParcel) {
+        this.creditContractParcel = creditContractParcel;
+    }
+
     @Override
     public String toString() {
         return "Values{" +

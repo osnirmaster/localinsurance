@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
@@ -31,9 +32,9 @@ public class QuoteControllerRest {
 
     }
 
-    @PutMapping("/{quoteId}")
-    public ResponseEntity updateQuote(@RequestBody UpdateQuote request){
-
+    @PutMapping("/{id}")
+    public ResponseEntity updateQuote( @PathVariable Long id ,@RequestBody @Valid UpdateQuote request){
+        log.info("ID recebido: {}", id);
         log.info("Calculo recebido: {}", request);
         return ResponseEntity.ok().body("OKAY");
     }

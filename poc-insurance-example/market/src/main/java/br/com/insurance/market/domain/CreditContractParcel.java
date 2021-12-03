@@ -23,4 +23,12 @@ public class CreditContractParcel {
     public void setParcels(List<Parcel> parcels) {
         this.parcels = parcels;
     }
+
+    @Override
+    public String toString() {
+        return "CreditContractParcel{" +
+                "creditAgreementId='" + creditAgreementId + '\'' +
+                ", parcels=" + parcels +
+                '}';
+    }
 }
