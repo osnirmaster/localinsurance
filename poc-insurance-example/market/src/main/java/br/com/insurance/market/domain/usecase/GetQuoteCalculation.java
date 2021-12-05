@@ -34,13 +34,12 @@ public class GetQuoteCalculation {
         this.commandBroker = commandBroker;
     }
 
-    public Quote insuranceQuote(RequestQuote payload) throws ExecutionException, InterruptedException {
-        Quote quote = payload.convertTo();
+    public Quote insuranceQuote(Quote quote) throws ExecutionException, InterruptedException {
 
         Customer customer = getCustomer.getCustomer(quote.getCustomerId());
         if(customerEligibility.getEligibility(customer)) {
 
-            quote.addCoverTax(coverTax.getCoverTax(quote.getproductCode()));
+            quote.setCoverTax(coverTax.getCoverTax(quote.getproductCode()));
             quote.setQuoteId(UUID.randomUUID().toString());
             quote.sendContractForCaculation(commandBroker);
             log.info("Mapeamento objeto {}", quote );

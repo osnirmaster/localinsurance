@@ -4,6 +4,9 @@ import br.com.insurance.market.domain.CreditContractParcel;
 import br.com.insurance.market.domain.Quote;
 import br.com.insurance.market.infra.db.QuoteId;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UpdateQuote {
 
     private String customerId;
@@ -11,17 +14,6 @@ public class UpdateQuote {
     private String productCode;
     private CreditContractParcel creditContractParcel;
 
-
-    public Quote convertTo(){
-        QuoteId id = new QuoteId();
-        id.setCustomerId(this.customerId);
-        id.setQuoteId(this.quoteId);
-
-        return new Quote(
-                id,
-                this.productCode,
-                this.creditContractParcel);
-    }
 
     public String getCustomerId() {
         return customerId;
@@ -63,5 +55,16 @@ public class UpdateQuote {
                 ", productCode='" + productCode + '\'' +
                 ", creditContractParcel=" + creditContractParcel +
                 '}';
+    }
+
+    public Quote convertTo(){
+        QuoteId id = new QuoteId();
+        id.setCustomerId(this.customerId);
+        id.setQuoteId(this.quoteId);
+
+        return new Quote(
+                id,
+                this.productCode,
+                this.creditContractParcel);
     }
 }

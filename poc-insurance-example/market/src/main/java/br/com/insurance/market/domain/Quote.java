@@ -6,8 +6,8 @@ import br.com.insurance.market.infra.db.QuoteId;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import org.springframework.data.annotation.Id;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -24,26 +24,27 @@ public class Quote {
     @DynamoDBTypeConvertedJson
     @DynamoDBAttribute
     private List<CreditContract> creditContracts;
-    @DynamoDBTypeConvertedJson
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
     @DynamoDBAttribute
-    private LocalDate dateQuote;
+    private String dateQuote;
     @DynamoDBAttribute
     private String segmentCustomerCode;
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
     @DynamoDBAttribute
-    private LocalDate birthDateCustomer;
+    private String birthDateCustomer;
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.N)
     @DynamoDBAttribute
     private Double coverTax;
     @DynamoDBTypeConvertedJson
     @DynamoDBAttribute
-    private CreditContractParcel creditContractParcel;
+    private List<CreditContractParcel> creditContractParcel = new ArrayList<>() ;
 
     public Quote(){}
 
     public Quote(
                  QuoteId id,
                  String productCode,
-                 LocalDate birthDateCustomer,
+                 String birthDateCustomer,
                  String segmentCustomerCode,
                  List<CreditContract> creditContracts
                  ) {
@@ -51,12 +52,13 @@ public class Quote {
         this.productCode = productCode;
         this.creditContracts = creditContracts;
         this.segmentCustomerCode = segmentCustomerCode;
+        this.dateQuote = LocalDate.now().toString();
     }
 
     public Quote(String productCode,
                  List<CreditContract> creditContracts,
-                 LocalDate dateQuote,
-                 LocalDate birthDateCustomer) {
+                 String dateQuote,
+                 String birthDateCustomer) {
         this.productCode = productCode;
         this.creditContracts = creditContracts;
         this.dateQuote = dateQuote;
@@ -66,7 +68,7 @@ public class Quote {
     public Quote(QuoteId quoteId, String productCode, CreditContractParcel parcels) {
         this.id = quoteId;
         this.productCode = productCode;
-        this.creditContractParcel = parcels;
+        this.creditContractParcel.add(parcels);
     }
 
 
@@ -86,11 +88,11 @@ public class Quote {
         this.status = status;
     }
 
-    public LocalDate getDateQuote() {
+    public String getDateQuote() {
         return dateQuote;
     }
 
-    public void setDateQuote(LocalDate dateQuote) {
+    public void setDateQuote(String dateQuote) {
         this.dateQuote = dateQuote;
     }
 
@@ -120,11 +122,11 @@ public class Quote {
         this.id.setQuoteId(quoteId);
     }
 
-    public LocalDate getBirthDateCustomer() {
+    public String getBirthDateCustomer() {
         return birthDateCustomer;
     }
 
-    public void setBirthDateCustomer(LocalDate birthDateCustomer) {
+    public void setBirthDateCustomer(String birthDateCustomer) {
         this.birthDateCustomer = birthDateCustomer;
     }
 
@@ -148,15 +150,15 @@ public class Quote {
         return coverTax;
     }
 
-    public void addCoverTax(Double coverTax) {
+    public void setCoverTax(Double coverTax) {
         this.coverTax = coverTax;
     }
 
-    public CreditContractParcel getCreditContractParcel() {
+    public List<CreditContractParcel> getCreditContractParcel() {
         return creditContractParcel;
     }
 
-    public void setCreditContractParcel(CreditContractParcel creditContractParcel) {
+    public void setCreditContractParcel(List<CreditContractParcel> creditContractParcel) {
         this.creditContractParcel = creditContractParcel;
     }
 
@@ -180,5 +182,20 @@ public class Quote {
 
     public void sendContractForCaculation(CommandBroker command) throws ExecutionException, InterruptedException {
         command.sendCommand(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Quote{" +
+                "id=" + id +
+                ", productCode='" + productCode + '\'' +
+                ", status=" + status +
+                ", creditContracts=" + creditContracts +
+                ", dateQuote=" + dateQuote +
+                ", segmentCustomerCode='" + segmentCustomerCode + '\'' +
+                ", birthDateCustomer=" + birthDateCustomer +
+                ", coverTax=" + coverTax +
+                ", creditContractParcel=" + creditContractParcel +
+                '}';
     }
 }

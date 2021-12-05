@@ -4,13 +4,12 @@ import br.com.insurance.market.domain.CreditContract;
 import br.com.insurance.market.domain.Quote;
 import br.com.insurance.market.infra.db.QuoteId;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class RequestQuote {
 
     private String productCode;
-    private LocalDate birthDate;
+    private String birthDate;
     private String customerId;
     private String segmentCustomerCode;
     private List<CreditContract> contracts;
@@ -24,11 +23,11 @@ public class RequestQuote {
         this.productCode = productCode;
     }
 
-    public LocalDate getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
