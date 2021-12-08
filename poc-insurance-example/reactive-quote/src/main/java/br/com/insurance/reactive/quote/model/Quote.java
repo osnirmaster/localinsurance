@@ -1,9 +1,9 @@
-package br.com.insurance.market.domain;
+package br.com.insurance.reactive.quote.model;
 
-import br.com.insurance.market.domain.service.CommandBroker;
-import br.com.insurance.market.domain.vo.QuoteStatus;
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import org.springframework.data.annotation.Id;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,43 +11,32 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
-@DynamoDBTable(tableName = "Quote")
+@DynamoDbBean
 public class Quote {
-    @Id
-    private QuoteId id;
-    @DynamoDBAttribute
+
+    public String customerId;
+    public String quoteId;
     private String productCode;
-    @DynamoDBTypeConvertedEnum
-    @DynamoDBAttribute
     private QuoteStatus status = QuoteStatus.PENDENT;
-    @DynamoDBTypeConvertedJson
-    @DynamoDBAttribute
     private List<CreditContract> creditContracts;
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
-    @DynamoDBAttribute
     private String dateQuote;
-    @DynamoDBAttribute
     private String segmentCustomerCode;
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
-    @DynamoDBAttribute
     private String birthDateCustomer;
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.N)
-    @DynamoDBAttribute
     private Double coverTax;
-    @DynamoDBTypeConvertedJson
-    @DynamoDBAttribute
     private List<CreditContractParcel> creditContractParcel = new ArrayList<>() ;
 
     public Quote(){}
 
     public Quote(
-                 QuoteId id,
+                 String customerId,
+                 String quoteId,
                  String productCode,
                  String birthDateCustomer,
                  String segmentCustomerCode,
                  List<CreditContract> creditContracts
                  ) {
-        this.id = id;
+        this.customerId = customerId;
+        this.quoteId = quoteId;
         this.productCode = productCode;
         this.creditContracts = creditContracts;
         this.segmentCustomerCode = segmentCustomerCode;
@@ -64,13 +53,37 @@ public class Quote {
         this.birthDateCustomer = birthDateCustomer;
     }
 
-    public Quote(QuoteId quoteId, String productCode, CreditContractParcel parcels) {
-        this.id = quoteId;
+    public Quote(String customerId,
+                 String quoteId,
+                 String productCode,
+                 CreditContractParcel parcels) {
+        this.customerId = customerId;
+        this.quoteId = quoteId;
         this.productCode = productCode;
         this.creditContractParcel.add(parcels);
     }
 
+    @DynamoDbPartitionKey
+    @DynamoDbAttribute("customerId")
+    public String getCustomerId() {
+        return customerId;
+    }
 
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    @DynamoDbSortKey
+    @DynamoDbAttribute("quoteId")
+    public String getQuoteId() {
+        return quoteId;
+    }
+
+    public void setQuoteId(String quoteId) {
+        this.quoteId = quoteId;
+    }
+
+    @DynamoDbAttribute("productCode")
     public String getproductCode() {
         return productCode;
     }
@@ -79,6 +92,7 @@ public class Quote {
         this.productCode = productCode;
     }
 
+    @DynamoDbAttribute("status")
     public QuoteStatus getStatus() {
         return status;
     }
@@ -87,6 +101,7 @@ public class Quote {
         this.status = status;
     }
 
+    @DynamoDbAttribute("dateQuote")
     public String getDateQuote() {
         return dateQuote;
     }
@@ -95,32 +110,7 @@ public class Quote {
         this.dateQuote = dateQuote;
     }
 
-    @DynamoDBHashKey(attributeName = "customerId")
-    public String getCustomerId() {
-        return this.id != null ? this.id.getCustomerId() : null;
-    }
-
-    public void setCustomerId(String customerId) {
-        if(this.id == null){
-            this.id = new QuoteId();
-        }
-
-        this.id.setCustomerId(customerId);
-    }
-
-    @DynamoDBRangeKey(attributeName = "quoteId")
-    public String getQuoteId() {
-        return this.id != null ? this.id.getQuoteId() : null;
-    }
-
-    public void setQuoteId(String quoteId) {
-        if(this.id == null){
-            this.id = new QuoteId();
-        }
-
-        this.id.setQuoteId(quoteId);
-    }
-
+    @DynamoDbAttribute("birthDateCustomer")
     public String getBirthDateCustomer() {
         return birthDateCustomer;
     }
@@ -129,6 +119,7 @@ public class Quote {
         this.birthDateCustomer = birthDateCustomer;
     }
 
+    @DynamoDbAttribute("creditContracts")
     public List<CreditContract> getCreditContracts() {
         return creditContracts;
     }
@@ -137,6 +128,7 @@ public class Quote {
         this.creditContracts = creditContracts;
     }
 
+    @DynamoDbAttribute("segmentCustomerCode")
     public String getSegmentCustomerCode() {
         return segmentCustomerCode;
     }
@@ -145,6 +137,7 @@ public class Quote {
         this.segmentCustomerCode = segmentCustomerCode;
     }
 
+    @DynamoDbAttribute("coverTax")
     public Double getCoverTax() {
         return coverTax;
     }
@@ -153,6 +146,7 @@ public class Quote {
         this.coverTax = coverTax;
     }
 
+    @DynamoDbAttribute("creditContractParcel")
     public List<CreditContractParcel> getCreditContractParcel() {
         return creditContractParcel;
     }
@@ -161,13 +155,6 @@ public class Quote {
         this.creditContractParcel = creditContractParcel;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Quote quote = (Quote) o;
-        return Objects.equals(id, quote.id) && Objects.equals(productCode, quote.productCode) && status == quote.status && Objects.equals(creditContracts, quote.creditContracts) && Objects.equals(dateQuote, quote.dateQuote) && Objects.equals(segmentCustomerCode, quote.segmentCustomerCode) && Objects.equals(birthDateCustomer, quote.birthDateCustomer) && Objects.equals(coverTax, quote.coverTax) ;
-    }
 
     @Override
     public int hashCode() {
@@ -179,14 +166,18 @@ public class Quote {
                 birthDateCustomer);
     }
 
-    public void sendContractForCaculation(CommandBroker command) throws ExecutionException, InterruptedException {
-        command.sendCommand(this);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quote quote = (Quote) o;
+        return Objects.equals(customerId, quote.customerId) && Objects.equals(quoteId, quote.quoteId) && Objects.equals(productCode, quote.productCode) && status == quote.status && Objects.equals(creditContracts, quote.creditContracts) && Objects.equals(dateQuote, quote.dateQuote) && Objects.equals(segmentCustomerCode, quote.segmentCustomerCode) && Objects.equals(birthDateCustomer, quote.birthDateCustomer) && Objects.equals(coverTax, quote.coverTax) && Objects.equals(creditContractParcel, quote.creditContractParcel);
     }
 
     @Override
     public String toString() {
         return "Quote{" +
-                "id=" + id +
+                "id=" + customerId + "#" + quoteId +
                 ", productCode='" + productCode + '\'' +
                 ", status=" + status +
                 ", creditContracts=" + creditContracts +

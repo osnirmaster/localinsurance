@@ -2,10 +2,7 @@ package br.com.insurance.market.adapters.dto;
 
 import br.com.insurance.market.domain.CreditContractParcel;
 import br.com.insurance.market.domain.Quote;
-import br.com.insurance.market.infra.db.QuoteId;
-
-import java.util.ArrayList;
-import java.util.List;
+import br.com.insurance.market.domain.QuoteId;
 
 public class UpdateQuote {
 

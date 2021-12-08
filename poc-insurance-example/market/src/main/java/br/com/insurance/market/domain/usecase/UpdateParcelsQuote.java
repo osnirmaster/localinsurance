@@ -1,7 +1,7 @@
 package br.com.insurance.market.domain.usecase;
 
 import br.com.insurance.market.domain.Quote;
-import br.com.insurance.market.infra.db.QuoteId;
+import br.com.insurance.market.domain.QuoteId;
 import br.com.insurance.market.infra.db.repositories.QuoteRepository;
 import lombok.extern.slf4j.Slf4j;
 

@@ -2,7 +2,7 @@ package br.com.insurance.market.adapters.dto;
 
 import br.com.insurance.market.domain.CreditContract;
 import br.com.insurance.market.domain.Quote;
-import br.com.insurance.market.infra.db.QuoteId;
+import br.com.insurance.market.domain.QuoteId;
 
 import java.util.List;
 
