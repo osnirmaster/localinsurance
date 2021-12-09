@@ -2,6 +2,7 @@ package br.com.insurance.reactive.quote.config;
 
 
 import br.com.insurance.reactive.quote.model.Quote;
+import br.com.insurance.reactive.quote.model.TermFeeTax;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbAsyncTable;
@@ -33,6 +34,12 @@ public class CrudCommandLineRunner implements CommandLineRunner {
                 DynamoDbAsyncTable<Quote> quote = enhancedAsyncClient.table(Quote.class.getSimpleName(), TableSchema.fromBean(Quote.class));
                 quote.createTable();
             }
+
+            if (null != tables && !tables.contains(TermFeeTax.class.getSimpleName())) {
+                DynamoDbAsyncTable<TermFeeTax> tax = enhancedAsyncClient.table(TermFeeTax.class.getSimpleName(), TableSchema.fromBean(TermFeeTax.class));
+                tax.createTable();
+            }
+
         });
     }
 }

@@ -24,14 +24,14 @@ public class TermFeeTaxRepository {
     }
 
     //READ
-    public CompletableFuture<TermFeeTax> getTermFeeByID(String primaryKey, String sortedKey) {
-        return termFeeTaxDynamoDbAsyncTable.getItem(getKeyBuild(primaryKey, sortedKey));
+    public CompletableFuture<TermFeeTax> getTermFeeByID(String productCode, Integer timeDays) {
+        return termFeeTaxDynamoDbAsyncTable.getItem(getKeyBuild(productCode, timeDays));
     }
 
-    private Key getKeyBuild(String primaryKey, String sortedKey) {
+    private Key getKeyBuild(String productCode, Integer timeDays) {
         return Key.builder()
-                .partitionValue(primaryKey)
-                .sortValue(sortedKey)
+                .partitionValue(productCode)
+                .sortValue(timeDays)
                 .build();
     }
 }

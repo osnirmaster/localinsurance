@@ -39,4 +39,5 @@ public class Handler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(quoteService.getQuote(customerId, quoteId), Quote.class);
     }
+
 }
