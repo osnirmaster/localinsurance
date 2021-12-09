@@ -18,7 +18,7 @@ public class Quote {
     public String quoteId;
     private String productCode;
     private QuoteStatus status = QuoteStatus.PENDENT;
-    private List<CreditContract> creditContracts;
+    private List<CreditContract> creditContracts = new ArrayList<>();
     private String dateQuote;
     private String segmentCustomerCode;
     private String birthDateCustomer;

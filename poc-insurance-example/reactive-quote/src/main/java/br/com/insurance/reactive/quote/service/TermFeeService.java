@@ -17,7 +17,7 @@ public class TermFeeService {
         this.termFeeTaxRepository = termFeeTaxRepository;
     }
 
-    public Mono<TermFeeTax> getQuote(String productCode, Integer timeDays ){
+    public Mono<TermFeeTax> getTax(String productCode, Integer timeDays ){
         CompletableFuture<TermFeeTax> tax = termFeeTaxRepository.getTermFeeByID(productCode, timeDays)
                 .whenComplete((ta, ex) -> {
                     if (null == ta) {
