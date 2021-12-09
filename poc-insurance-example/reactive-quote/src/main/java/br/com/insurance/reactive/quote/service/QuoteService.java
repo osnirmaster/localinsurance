@@ -32,17 +32,17 @@ public class QuoteService {
     }
 
     public Flux<Quote> createGuote(Quote quote){
-        List<Parcel> parcels = new ArrayList<>();
+        final List<CreditContractParcel> contractParcels = new ArrayList<>();
         Flux.fromIterable(quote
                 .getCreditContracts())
                 .parallel()
                 .runOn(Schedulers.parallel())
                 .map( s -> toCalculate(quote, s) )
-                .map(p -> quote.getCreditContractParcel().add(p))
-                .sequential()
-                .log()
+                .flatMap(p -> Mono.just(quote.getCreditContractParcel().add(p.block())) )
                 .subscribe();
-                 log.info("ammount: {}", quote);
+
+                quote.setCreditContractParcel(contractParcels);
+                log.info("ammount: {} !!", quote);
 
 /*                .map(contract -> contract
                         .getCreditPriceTotal()
@@ -75,7 +75,7 @@ public class QuoteService {
         return termFeeService.getTax(productCode, ammountParcels);
     }
 
-    public CreditContractParcel toCalculate (Quote quote,CreditContract s){
+    public Mono<CreditContractParcel> toCalculate (Quote quote,CreditContract s){
         List<Parcel> parcels = new ArrayList<>();
         for (int i = 0; i <= s.getCreditParcelAmount() ; i++){
             CompletableFuture<TermFeeTax> tax = taxRepository
@@ -95,6 +95,8 @@ public class QuoteService {
                 e.printStackTrace();
             }
         }
-        return new CreditContractParcel(s.getCreditAgreementId(), parcels);
+        log.info("parcelas: {}",parcels);
+        quote.getCreditContractParcel().add(new CreditContractParcel(s.getCreditAgreementId(), parcels));
+        return Mono.just(new CreditContractParcel(s.getCreditAgreementId(), parcels)) ;
     }
 }

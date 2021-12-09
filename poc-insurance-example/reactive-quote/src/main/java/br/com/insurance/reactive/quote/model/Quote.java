@@ -1,15 +1,13 @@
 package br.com.insurance.reactive.quote.model;
 
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
+
 
 @DynamoDbBean
 public class Quote {
@@ -19,7 +17,7 @@ public class Quote {
     private String productCode;
     private QuoteStatus status = QuoteStatus.PENDENT;
     private List<CreditContract> creditContracts = new ArrayList<>();
-    private String dateQuote;
+    private String dateQuote = LocalDate.now().toString();
     private String segmentCustomerCode;
     private String birthDateCustomer;
     private Double coverTax;
