@@ -3,6 +3,7 @@ package br.com.insurance.reactive.quote.service;
 import br.com.insurance.reactive.quote.model.*;
 import br.com.insurance.reactive.quote.repository.QuoteRepository;
 import br.com.insurance.reactive.quote.repository.TermFeeTaxRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -15,6 +16,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
+@Slf4j
 @Service
 public class QuoteService {
 
@@ -29,33 +31,19 @@ public class QuoteService {
         this.termFeeService = termFeeService;
     }
 
-    public Mono<Quote> createGuote(Quote quote){
+    public Flux<Quote> createGuote(Quote quote){
         List<Parcel> parcels = new ArrayList<>();
         Flux.fromIterable(quote
                 .getCreditContracts())
                 .parallel()
                 .runOn(Schedulers.parallel())
-                .flatMap((CreditContract s) -> {
-                    for (int i = 0; i <= s.getCreditParcelAmount() ; i++){
-                        CompletableFuture<TermFeeTax> tax = taxRepository
-                                .getTermFeeByID(quote.getproductCode(),
-                                        s.getCreditParcelAmount());
-                        try {
-                            BigDecimal priceTaxFee = s.getCreditPriceTotal().multiply(BigDecimal.valueOf(tax.get().tax));
-                            BigDecimal priceCoverTax = s
-                                    .getCreditPriceTotal()
-                                    .multiply(BigDecimal.valueOf(0.05));
-                            parcels.add(new Parcel(s
-                                    .getCreditParcelAmount(),
-                                    priceCoverTax.add(priceTaxFee)));
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    return Flux.(new CreditContractParcel(s.getCreditAgreementId(), parcels));
-                }).sequential().collectList().flatMapMany(Flux::fromIterable).collectList().block();
+                .map( s -> toCalculate(quote, s) )
+                .map(p -> quote.getCreditContractParcel().add(p))
+                .sequential()
+                .log()
+                .subscribe();
+                 log.info("ammount: {}", quote);
+
 /*                .map(contract -> contract
                         .getCreditPriceTotal()
                         .multiply(BigDecimal.valueOf(getTax(quote.getproductCode(),contract.getCreditParcelAmount()).block().tax)))
@@ -64,7 +52,7 @@ public class QuoteService {
 
         Quote quoteResponse = quoteRepository.save(quote)
                 .handle((quo, ex) -> ex == null ? quote : null).join();
-        return Mono.just(quote);
+        return Flux.just(quote);
     }
 
     public Mono<Quote> getQuote(String customerId, String quoteId ){
@@ -87,7 +75,7 @@ public class QuoteService {
         return termFeeService.getTax(productCode, ammountParcels);
     }
 
-    public List<CreditContractParcel> toCalculate (Quote quote,CreditContract s){
+    public CreditContractParcel toCalculate (Quote quote,CreditContract s){
         List<Parcel> parcels = new ArrayList<>();
         for (int i = 0; i <= s.getCreditParcelAmount() ; i++){
             CompletableFuture<TermFeeTax> tax = taxRepository
@@ -107,6 +95,6 @@ public class QuoteService {
                 e.printStackTrace();
             }
         }
-        return new CreditContractParcel(s.getCreditAgreementId(), parcels));
+        return new CreditContractParcel(s.getCreditAgreementId(), parcels);
     }
 }

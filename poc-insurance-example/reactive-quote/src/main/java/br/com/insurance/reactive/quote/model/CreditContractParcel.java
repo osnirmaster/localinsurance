@@ -5,9 +5,11 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import java.util.List;
 
 @DynamoDbBean
-public class CreditContractParcel implements Iterable<T> {
+public class CreditContractParcel  {
     private String creditAgreementId;
     private List<Parcel> parcels;
+
+    public CreditContractParcel(){}
 
     public CreditContractParcel(String creditAgreementId, List<Parcel> parcels) {
         this.creditAgreementId = creditAgreementId;

@@ -6,10 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import static org.springframework.web.reactive.function.BodyInserters.fromPublisher;
-
-import java.net.URI;
 
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
@@ -25,7 +24,7 @@ public class Handler {
 
     public Mono<ServerResponse> createQuote(ServerRequest request){
 
-        final  Mono<Quote> quote = request.bodyToMono(Quote.class);
+        final Flux<Quote> quote = request.bodyToFlux(Quote.class);
         return ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromPublisher(quote.flatMap(quoteService::createGuote), Quote.class));
