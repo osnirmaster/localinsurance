@@ -32,27 +32,24 @@ public class QuoteService {
     }
 
     public Flux<Quote> createGuote(Quote quote){
-        final List<CreditContractParcel> contractParcels = new ArrayList<>();
-        Flux.fromIterable(quote
+
+        return Flux.fromIterable(quote
                 .getCreditContracts())
                 .parallel()
                 .runOn(Schedulers.parallel())
-                .map( s -> toCalculate(quote, s) )
-                .flatMap(p -> Mono.just(quote.getCreditContractParcel().add(p.block())) )
-                .subscribe();
+                .map( s -> toCalculate(quote, s)).log()
+                .sequential()
+                .doOnComplete(()->quoteRepository.save(quote)
+                        .handle((quo, ex) -> ex == null ? quote : null)
+                        .whenComplete((cus, ex) -> {
+                            if (null == cus) {
+                                throw new IllegalArgumentException("Invalid customerId");
+                            }
 
-                quote.setCreditContractParcel(contractParcels);
-                log.info("ammount: {} !!", quote);
+                        })
+                        .exceptionally(ex -> new Quote()))
+                .thenMany(Flux.just(quote));
 
-/*                .map(contract -> contract
-                        .getCreditPriceTotal()
-                        .multiply(BigDecimal.valueOf(getTax(quote.getproductCode(),contract.getCreditParcelAmount()).block().tax)))
-                .map(price -> price.multiply(BigDecimal.valueOf(0.05)))
-                .*/
-
-        Quote quoteResponse = quoteRepository.save(quote)
-                .handle((quo, ex) -> ex == null ? quote : null).join();
-        return Flux.just(quote);
     }
 
     public Mono<Quote> getQuote(String customerId, String quoteId ){
@@ -75,7 +72,7 @@ public class QuoteService {
         return termFeeService.getTax(productCode, ammountParcels);
     }
 
-    public Mono<CreditContractParcel> toCalculate (Quote quote,CreditContract s){
+    public Flux<CreditContractParcel> toCalculate (Quote quote,CreditContract s){
         List<Parcel> parcels = new ArrayList<>();
         for (int i = 0; i <= s.getCreditParcelAmount() ; i++){
             CompletableFuture<TermFeeTax> tax = taxRepository
@@ -97,6 +94,6 @@ public class QuoteService {
         }
         log.info("parcelas: {}",parcels);
         quote.getCreditContractParcel().add(new CreditContractParcel(s.getCreditAgreementId(), parcels));
-        return Mono.just(new CreditContractParcel(s.getCreditAgreementId(), parcels)) ;
+        return Flux.just(new CreditContractParcel(s.getCreditAgreementId(), parcels)) ;
     }
 }
