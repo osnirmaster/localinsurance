@@ -32,7 +32,6 @@ public class QuoteService {
     }
 
     public Flux<Quote> createGuote(Quote quote){
-
         return Flux.fromIterable(quote
                 .getCreditContracts())
                 .parallel()
@@ -45,11 +44,9 @@ public class QuoteService {
                             if (null == cus) {
                                 throw new IllegalArgumentException("Invalid customerId");
                             }
-
                         })
                         .exceptionally(ex -> new Quote()))
                 .thenMany(Flux.just(quote));
-
     }
 
     public Mono<Quote> getQuote(String customerId, String quoteId ){
@@ -74,17 +71,16 @@ public class QuoteService {
 
     public Flux<CreditContractParcel> toCalculate (Quote quote,CreditContract s){
         List<Parcel> parcels = new ArrayList<>();
-        for (int i = 0; i <= s.getCreditParcelAmount() ; i++){
+        for (int i = 1; i <= s.getCreditParcelAmount() ; i++){
             CompletableFuture<TermFeeTax> tax = taxRepository
                     .getTermFeeByID(quote.getproductCode(),
-                            s.getCreditParcelAmount());
+                            i);
             try {
                 BigDecimal priceTaxFee = s.getCreditPriceTotal().multiply(BigDecimal.valueOf(tax.get().tax));
                 BigDecimal priceCoverTax = s
                         .getCreditPriceTotal()
                         .multiply(BigDecimal.valueOf(0.05));
-                parcels.add(new Parcel(s
-                        .getCreditParcelAmount(),
+                parcels.add(new Parcel(i,
                         priceCoverTax.add(priceTaxFee)));
             } catch (InterruptedException e) {
                 e.printStackTrace();
