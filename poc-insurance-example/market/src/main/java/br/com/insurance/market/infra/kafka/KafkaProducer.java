@@ -26,7 +26,7 @@ public class KafkaProducer implements CommandBroker {
     }
 
     public void sendMessage(CommandCalculationSchemaJson command) throws ExecutionException, InterruptedException {
-        log.info("Payload: {}", command);
+       log.info("Payload: {}", command);
         kafkaTemplate
                 .send(topicName, command.getCreditContract().getCreditAgreementId(), command)
                 .addCallback(new ListenableFutureCallback<SendResult<String, CommandCalculationSchemaJson>>() {

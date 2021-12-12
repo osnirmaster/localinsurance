@@ -32,7 +32,7 @@ public class CalculationByContractCredit {
                BigDecimal priceCoverTax = quote.getCreditContract()
                        .getCreditPriceTotal()
                        .multiply(BigDecimal.valueOf(quote.getCoverTax()));
-               log.info("ammount: {}", i);
+//               log.info("ammount: {}", i);
                parcels.add(new Parcel(quote.getCreditContract()
                        .getCreditParcelAmount(),
                        priceCoverTax.add(priceTaxFee)));

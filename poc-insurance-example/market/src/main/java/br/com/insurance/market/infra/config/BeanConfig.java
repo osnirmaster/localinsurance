@@ -4,6 +4,7 @@ import br.com.insurance.market.domain.service.CommandBroker;
 import br.com.insurance.market.domain.service.CoverTax;
 import br.com.insurance.market.domain.service.CustomerEligibility;
 import br.com.insurance.market.domain.service.GetCustomer;
+import br.com.insurance.market.domain.usecase.GetQuoteFinalized;
 import br.com.insurance.market.domain.usecase.UpdateParcelsQuote;
 import br.com.insurance.market.infra.db.repositories.QuoteRepository;
 import br.com.insurance.market.domain.usecase.GetQuoteCalculation;
@@ -18,6 +19,7 @@ public class BeanConfig {
     private final CustomerEligibility customerEligibility;
     private final GetCustomer getCustomer;
     private final CommandBroker commandBroker;
+
     @Autowired
     private  QuoteRepository quoteRepository;
 
@@ -43,5 +45,10 @@ public class BeanConfig {
     @Bean
     public UpdateParcelsQuote updateQuote(){
         return new UpdateParcelsQuote(quoteRepository);
+    }
+
+    @Bean
+    public GetQuoteFinalized getQuoteFinalized(){
+        return  new GetQuoteFinalized(quoteRepository);
     }
 }
