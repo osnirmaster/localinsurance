@@ -1,8 +1,6 @@
 package br.com.app.mobile.controller;
 
 
-import br.com.insurance.market.adapters.dto.CalculatedQuote;
-
 import java.util.List;
 
 public class RequestQuote {

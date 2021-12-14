@@ -13,7 +13,7 @@
 
     <groupId>br.com.insurance</groupId>
     <artifactId>reactive-quote</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>reactive-quote</name>
     <description>Demo project for Spring Boot WebFlux</description>
     <properties>

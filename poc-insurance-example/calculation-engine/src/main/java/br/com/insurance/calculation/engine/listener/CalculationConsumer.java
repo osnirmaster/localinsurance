@@ -19,6 +19,8 @@ import org.springframework.web.client.RestTemplate;
 public class CalculationConsumer {
     @Value("${app.tempo-nack-ms}")
     private long tempoNackMs;
+    @Value("${app.microservice.update-quote}")
+    private String hostQuoteService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final RestTemplate restTemplate;
     private final CalculationByContractCredit calculation;
@@ -39,7 +41,7 @@ public class CalculationConsumer {
             UpdateQuote quote = calculation.toCalculate(message);
             logger.info("Atualizando Cotação: {}", quote);
 
-            restTemplate.put("http://localhost:8099/insurance/quote/1", quote , UpdateQuote.class);;
+            restTemplate.put(hostQuoteService+"/insurance/quote/1", quote , UpdateQuote.class);;
 
             ack.acknowledge();
             logger.info("Commit realizado");
