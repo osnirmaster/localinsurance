@@ -74,7 +74,7 @@ public class QuoteService {
         for (int i = 1; i <= s.getCreditParcelAmount() ; i++){
             CompletableFuture<TermFeeTax> tax = taxRepository
                     .getTermFeeByID(quote.getproductCode(),
-                            i);
+                            s.getCreditParcelAmount());
             try {
                 BigDecimal priceTaxFee = s.getCreditPriceTotal().multiply(BigDecimal.valueOf(tax.get().tax));
                 BigDecimal priceCoverTax = s
