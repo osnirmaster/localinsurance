@@ -21,7 +21,7 @@ public class CalculationByContractCredit {
     public UpdateQuote toCalculate(InsuranceCalculate quote){
 
         List<Parcel> parcels = new ArrayList<>();
-        for (int i = 0; i <= quote.getCreditContract().getCreditParcelAmount() ; i++) {
+        for (int i = 1; i <= quote.getCreditContract().getCreditParcelAmount() ; i++) {
            Optional<TermFeeTax> tax = termFeeTaxRespository
                     .findById(new TermFeeId(quote.getProductCode(),
                             quote.getCreditContract().getCreditParcelAmount()));

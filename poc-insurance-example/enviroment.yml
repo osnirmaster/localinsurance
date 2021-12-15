@@ -199,8 +199,7 @@ services:
       - "5000:5000"
 
   mobile:
-    build: ./app-mobile
-    image: mobile-service
+    image: osnirmaster/mobile-service:latest
     container_name: mobile
     ports:
       - "8096:8096"
@@ -208,8 +207,7 @@ services:
       REQUEST_QUOTE_INIT: 'http://market-service:8099'
 
   market-service:
-    build: ./market
-    image: market
+    image: osnirmaster/market:latest
     container_name: market-service
     depends_on:
       - broker
@@ -221,8 +219,7 @@ services:
       DYNAMODB_HOST: 'http://dynamodb-local:8000'
 
   calculation-engine-service:
-    build: ./calculation-engine
-    image: calculation-engine-service
+    image: osnirmaster/calculation-engine-service:latest
     container_name: calculation-engine-service
     depends_on:
       - broker
@@ -233,10 +230,9 @@ services:
       MARKET_SERVICE_HOST: 'http://market-service:8099'
 
   reactive-quote-service:
-    build: ./reactive-quote
-    image: reactive-quote-service
+    image: osnirmaster/reactive-quote-service:latest
     ports:
-      - "1000:8098"
+      - "8098:8098"
     depends_on:
       - dynamodb-local
     environment:

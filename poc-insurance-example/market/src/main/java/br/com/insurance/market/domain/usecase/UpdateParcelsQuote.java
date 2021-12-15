@@ -19,20 +19,27 @@ public class UpdateParcelsQuote {
 
     public Quote includeParcel(Quote quoteUpdated){
         QuoteId id = new QuoteId(quoteUpdated.getCustomerId(), quoteUpdated.getQuoteId());
-//        log.info("Objeto quote updated: {}", quoteUpdated);
         Optional<Quote> quote = quoteRepository.findById(id);
 
         if(quote.isEmpty()){
-            throw new RuntimeException("Quote nao encontrada");
+            throw new RuntimeException("Cotação nao encontrada");
         }
 
- //       log.info("Objeto quote: {}", quote);
 
         quote.get()
                 .getCreditContractParcel()
                 .add(quoteUpdated.getCreditContractParcel().get(0));
 
-        quote.get().setStatus(QuoteStatus.FINISHED);
+
+        Integer contractsNumber = Math.toIntExact(quote.get().getCreditContracts().stream().count());
+        Integer contractsUpdated = Math.toIntExact(quote.get().getCreditContractParcel().stream().count());
+
+        log.info("Contratos Enviados: {} vs {} Contratos Calculados", contractsNumber, contractsUpdated);
+
+        if (contractsUpdated.equals(contractsNumber) ){
+            quote.get().setStatus(QuoteStatus.FINISHED);
+            log.info("Calculo Quotacao finalizada", contractsNumber, contractsUpdated);
+        }
 
         return quoteRepository.save(quote.get());
 
