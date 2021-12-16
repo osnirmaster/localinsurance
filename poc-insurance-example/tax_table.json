@@ -1,0 +1,27 @@
+{
+  "TableName": "Tax",
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "productCode",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "timeDays",
+      "AttributeType": "S"
+    }
+  ],
+  "KeySchema": [
+    {
+      "AttributeName": "productCode",
+      "KeyType": "HASH"
+    },
+    {
+      "AttributeName": "timeDays",
+      "KeyType": "RANGE"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}

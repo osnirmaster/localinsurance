@@ -38,6 +38,7 @@ public class CalculationConsumer {
                          Acknowledgment ack){
         try{
             logger.info("Iniciando consumo do tópico {}, key {}, Numero do contrato {}", topico, key, message.getCreditContract().getCreditAgreementId() );
+            logger.info("mensagem: {}", message);
             UpdateQuote quote = calculation.toCalculate(message);
             logger.info("Atualizando Cotação: {}", quote);
 

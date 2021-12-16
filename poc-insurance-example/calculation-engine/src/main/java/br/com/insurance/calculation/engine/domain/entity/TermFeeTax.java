@@ -5,20 +5,25 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import org.springframework.data.annotation.Id;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@DynamoDBTable(tableName = "Tax")
+@DynamoDbBean
 public class TermFeeTax {
-    @Id
     public TermFeeId termFeeId;
-    @DynamoDBAttribute
+    public String productCode;
+    public Integer timeDays;
     public Double tax;
 
-    @DynamoDBHashKey(attributeName = "productCode")
+    @DynamoDbPartitionKey
+    @DynamoDbAttribute("productCode")
     public String getProductCode() {
         return this.termFeeId != null ? this.termFeeId.getProductCode() : null;
     }
@@ -31,7 +36,8 @@ public class TermFeeTax {
         this.termFeeId.setProductCode(productCode);
     }
 
-    @DynamoDBRangeKey(attributeName = "timeDays")
+    @DynamoDbSortKey
+    @DynamoDbAttribute("timeDays")
     public Integer getTimeDays() {
         return this.termFeeId != null ? this.termFeeId.getTimeDays() : null;
     }
@@ -44,6 +50,9 @@ public class TermFeeTax {
         this.termFeeId.setTimeDays(timeDays);
     }
 
+
+
+    @DynamoDbAttribute("tax")
     public Double getTax() {
         return tax;
     }
@@ -51,6 +60,8 @@ public class TermFeeTax {
     public void setTax(Double tax) {
         this.tax = tax;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

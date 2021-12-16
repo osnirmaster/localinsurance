@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BeanConfig {
 
-    private final  SpringTermFeeRepository termFeeTaxRespository;
+    private final  CustomTermFeeRepository termFeeTaxRespository;
 
-    public BeanConfig(SpringTermFeeRepository termFeeTaxRespository) {
+    public BeanConfig(CustomTermFeeRepository termFeeTaxRespository) {
         this.termFeeTaxRespository = termFeeTaxRespository;
     }
 

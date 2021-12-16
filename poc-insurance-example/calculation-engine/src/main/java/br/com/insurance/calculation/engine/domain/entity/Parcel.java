@@ -28,4 +28,12 @@ public class Parcel {
     public void setValue(BigDecimal value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "Parcel{" +
+                "amount=" + amount +
+                ", value=" + value +
+                '}';
+    }
 }

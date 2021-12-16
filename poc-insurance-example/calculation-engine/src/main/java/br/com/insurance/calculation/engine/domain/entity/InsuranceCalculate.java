@@ -53,4 +53,15 @@ public class InsuranceCalculate {
     public void setCreditContract(CreditContract creditContract) {
         this.creditContract = creditContract;
     }
+
+    @Override
+    public String toString() {
+        return "InsuranceCalculate{" +
+                "customerId='" + customerId + '\'' +
+                ", quoteId='" + quoteId + '\'' +
+                ", coverTax=" + coverTax +
+                ", productCode='" + productCode + '\'' +
+                ", creditContract=" + creditContract +
+                '}';
+    }
 }
