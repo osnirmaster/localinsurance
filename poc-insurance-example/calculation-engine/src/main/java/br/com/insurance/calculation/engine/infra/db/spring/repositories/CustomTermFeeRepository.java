@@ -3,10 +3,6 @@ package br.com.insurance.calculation.engine.infra.db.spring.repositories;
 import br.com.insurance.calculation.engine.domain.entity.TermFeeId;
 import br.com.insurance.calculation.engine.domain.entity.TermFeeTax;
 import br.com.insurance.calculation.engine.domain.repository.TermFeeTaxRespository;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import org.socialsignin.spring.data.dynamodb.core.DynamoDBTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
@@ -16,8 +12,6 @@ import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -46,7 +40,7 @@ public class CustomTermFeeRepository implements TermFeeTaxRespository {
     }
 
     private DynamoDbTable<TermFeeTax> getTable() {
-        // Create a tablescheme to scan our bean class order
+        // Create a tablescheme to scan our bean class quote
         DynamoDbTable<TermFeeTax> taxDynamoDbTable =
                 dynamoDbenhancedClient.table("TermFeeTax",
                         TableSchema.fromBean(TermFeeTax.class));

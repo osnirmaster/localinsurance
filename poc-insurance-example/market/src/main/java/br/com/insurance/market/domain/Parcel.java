@@ -10,6 +10,7 @@ public class Parcel {
     private Integer amount;
     private BigDecimal value;
 
+    public Parcel(){}
 
     public Parcel(Integer amount, BigDecimal value) {
         this.amount = amount;

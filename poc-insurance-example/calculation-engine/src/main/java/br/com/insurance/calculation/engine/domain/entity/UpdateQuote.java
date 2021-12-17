@@ -1,7 +1,5 @@
 package br.com.insurance.calculation.engine.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.List;
 
 public class UpdateQuote {

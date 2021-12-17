@@ -25,17 +25,15 @@ public class UpdateParcelsQuote {
             throw new RuntimeException("Cotação nao encontrada");
         }
 
-
         quote.get()
                 .getCreditContractParcel()
                 .add(quoteUpdated.getCreditContractParcel().get(0));
-
 
         Integer contractsNumber = Math.toIntExact(quote.get().getCreditContracts().stream().count());
         Integer contractsUpdated = Math.toIntExact(quote.get().getCreditContractParcel().stream().count());
 
         log.info("Contratos Enviados: {} vs {} Contratos Calculados", contractsNumber, contractsUpdated);
-
+        log.info("quote id: {}", quoteUpdated.getQuoteId() );
         if (contractsUpdated.equals(contractsNumber) ){
             quote.get().setStatus(QuoteStatus.FINISHED);
             log.info("Calculo Quotacao finalizada", contractsNumber, contractsUpdated);

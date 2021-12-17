@@ -1,6 +1,5 @@
 package br.com.insurance.market.domain.usecase;
 
-import br.com.insurance.market.adapters.dto.RequestQuote;
 import br.com.insurance.market.domain.Customer;
 import br.com.insurance.market.domain.Quote;
 import br.com.insurance.market.domain.service.CommandBroker;

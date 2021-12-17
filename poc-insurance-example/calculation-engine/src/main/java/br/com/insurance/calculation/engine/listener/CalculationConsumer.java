@@ -3,7 +3,6 @@ package br.com.insurance.calculation.engine.listener;
 import br.com.insurance.calculation.engine.domain.entity.InsuranceCalculate;
 import br.com.insurance.calculation.engine.domain.entity.UpdateQuote;
 import br.com.insurance.calculation.engine.domain.usecase.CalculationByContractCredit;
-import com.amazonaws.AmazonServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +13,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
 @Component
 public class CalculationConsumer {
@@ -51,7 +51,7 @@ public class CalculationConsumer {
              * Se ocorrer um erro de conexão com a base (ex: timeout por firewall, credenciais inválidas ..) então tentaremos
              * novamente pois não adianta passar para a próxima mensagem, já que todas precisam ser salvas na base.
              * */
-            if (e.getCause() instanceof AmazonServiceException){
+            if (e.getCause() instanceof DynamoDbException){
                 logger.error("Problemas ao comunicar com a base de dados, tentaremos novamente em 10segundos", e);
                 ack.nack(tempoNackMs);
             }else {

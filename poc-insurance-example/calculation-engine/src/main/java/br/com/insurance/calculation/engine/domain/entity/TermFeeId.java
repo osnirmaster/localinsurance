@@ -1,7 +1,5 @@
 package br.com.insurance.calculation.engine.domain.entity;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
 import java.io.Serializable;
@@ -20,8 +18,6 @@ public class TermFeeId implements Serializable {
         this.productCode = productCode;
         this.timeDays = timeDays;
     }
-
-    @DynamoDBHashKey(attributeName = "productCode")
     public String getProductCode() {
         return productCode;
     }
@@ -30,7 +26,6 @@ public class TermFeeId implements Serializable {
         this.productCode = productCode;
     }
 
-    @DynamoDBRangeKey(attributeName = "timeDays")
     public Integer getTimeDays() {
         return timeDays;
     }

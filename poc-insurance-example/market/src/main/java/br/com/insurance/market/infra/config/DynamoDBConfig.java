@@ -23,10 +23,6 @@ public class DynamoDBConfig {
 
     @Bean
     public DynamoDbClient getDynamoDbClient() {
-        AwsCredentialsProvider credentialsProvider =
-                DefaultCredentialsProvider.builder()
-                        .profileName("default")
-                        .build();
 
         return DynamoDbClient.builder()
                 .region(Region.US_EAST_1)

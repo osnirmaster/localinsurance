@@ -56,6 +56,7 @@ public class Quote {
     public Quote(QuoteId quoteId, String productCode, CreditContractParcel parcels) {
         this.id = quoteId;
         this.productCode = productCode;
+        this.creditContractParcel = new ArrayList<>();
         this.creditContractParcel.add(parcels);
     }
 
