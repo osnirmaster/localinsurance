@@ -1,11 +1,38 @@
 package br.com.insurance.market.infra.db.repositories;
 
 import br.com.insurance.market.domain.Quote;
-import br.com.insurance.market.domain.QuoteId;
-import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
-import org.springframework.data.repository.CrudRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
+@Slf4j
+@Repository
+public class QuoteRepository {
+    @Autowired
+    private DynamoDbEnhancedClient dynamoDbenhancedClient ;
 
-@EnableScan
-public interface QuoteRepository extends CrudRepository<Quote, QuoteId> {
+    public Quote save(final Quote quote) {
+        DynamoDbTable<Quote> quoteTable = getTable();
+
+        try {
+            quoteTable.putItem(quote);
+            return quote;
+        } catch (DynamoDbException ex) {
+
+            log.error("erro: {}", ex);
+            return null;
+        }
+    }
+
+    private DynamoDbTable<Quote> getTable() {
+        // Create a tablescheme to scan our bean class quote
+        DynamoDbTable<Quote> quoteTable =
+                dynamoDbenhancedClient.table("Quote",
+                        TableSchema.fromBean(Quote.class));
+        return quoteTable;
+    }
 }

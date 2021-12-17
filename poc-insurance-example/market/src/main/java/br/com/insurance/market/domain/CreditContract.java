@@ -1,7 +1,10 @@
 package br.com.insurance.market.domain;
 
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+
 import java.math.BigDecimal;
 
+@DynamoDbBean
 public class CreditContract {
 
     private String creditAgreementId;

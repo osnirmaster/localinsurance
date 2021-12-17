@@ -1,9 +1,10 @@
 package br.com.insurance.market.domain;
 
-import br.com.insurance.market.domain.Parcel;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
 import java.util.List;
 
+@DynamoDbBean
 public class CreditContractParcel {
     private String creditAgreementId;
     private List<Parcel> parcels;

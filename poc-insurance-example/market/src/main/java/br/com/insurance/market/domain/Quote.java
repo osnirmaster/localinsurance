@@ -2,8 +2,11 @@ package br.com.insurance.market.domain;
 
 import br.com.insurance.market.domain.service.CommandBroker;
 import br.com.insurance.market.domain.vo.QuoteStatus;
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import org.springframework.data.annotation.Id;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,31 +14,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
-@DynamoDBTable(tableName = "Quote")
+@DynamoDbBean
 public class Quote {
-    @Id
+
     private QuoteId id;
-    @DynamoDBAttribute
     private String productCode;
-    @DynamoDBTypeConvertedEnum
-    @DynamoDBAttribute
     private QuoteStatus status = QuoteStatus.PENDENT;
-    @DynamoDBTypeConvertedJson
-    @DynamoDBAttribute
     private List<CreditContract> creditContracts;
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
-    @DynamoDBAttribute
     private String dateQuote;
-    @DynamoDBAttribute
     private String segmentCustomerCode;
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
-    @DynamoDBAttribute
     private String birthDateCustomer;
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.N)
-    @DynamoDBAttribute
     private Double coverTax;
-    @DynamoDBTypeConvertedJson
-    @DynamoDBAttribute
     private List<CreditContractParcel> creditContractParcel = new ArrayList<>() ;
 
     public Quote(){}
@@ -95,7 +84,8 @@ public class Quote {
         this.dateQuote = dateQuote;
     }
 
-    @DynamoDBHashKey(attributeName = "customerId")
+    @DynamoDbPartitionKey
+    @DynamoDbAttribute("customerId")
     public String getCustomerId() {
         return this.id != null ? this.id.getCustomerId() : null;
     }
@@ -108,7 +98,8 @@ public class Quote {
         this.id.setCustomerId(customerId);
     }
 
-    @DynamoDBRangeKey(attributeName = "quoteId")
+    @DynamoDbSortKey
+    @DynamoDbAttribute("quoteId")
     public String getQuoteId() {
         return this.id != null ? this.id.getQuoteId() : null;
     }
