@@ -39,8 +39,8 @@ public class DynamoDBConfig {
                 .withCredentials(new DefaultAWSCredentialsProviderChain())
                 .build();
 
-         AmazonDynamoDBLockClient.createLockTableInDynamoDB(
-                CreateDynamoDBTableOptions.builder(amazonDynamoDB(),new ProvisionedThroughput(25L, 25L), "QuoteLock").build());
+/*         AmazonDynamoDBLockClient.createLockTableInDynamoDB(
+                CreateDynamoDBTableOptions.builder(amazonDynamoDB(),new ProvisionedThroughput(25L, 25L), "QuoteLock").build());*/
 
         return DynamoDbClient.builder()
                 .region(Region.SA_EAST_1)

@@ -68,7 +68,7 @@ public class QuoteRepository {
         long leaseDuration = 2L;
         final AmazonDynamoDBLockClient client = new AmazonDynamoDBLockClient(
                 AmazonDynamoDBLockClientOptions.builder(amazonDynamoDB, "QuoteLock")
-                        .withTimeUnit(TimeUnit.MILLISECONDS)
+                        .withTimeUnit(TimeUnit.SECONDS)
                         .withLeaseDuration(leaseDuration)
                         .withHeartbeatPeriod(2L)
                         .withCreateHeartbeatBackgroundThread(createHeartbeatBackgroundThread)
@@ -86,17 +86,17 @@ public class QuoteRepository {
                     Quote quote = findById(id);
 
                     if (quote != null) {
-                        System.out.println( " looking to eat. Available Pieces " + quote.getQuoteId());
-
+                            System.out.println( " Quote avaliable: " + quote.getQuoteId());
                         try {
                             save(quote); // processing complete
+                            System.out.println("Quote saved . " + "stopping");
+                            break;
+
                         } catch (Exception e) {
-                            System.err.println("Saving Cake for "  + " failed. " + e.getMessage());
+                            System.err.println("Quote not saved with "  + "failed. " + e.getMessage());
                         }
-                    } else {
-                        System.out.println("Cake is over. " + " stopping");
-                        break;
                     }
+
                     client.releaseLock(lockItem.get()); //lock released
                     System.out.println(" taking a break");
                     Thread.sleep(leaseDuration * 3);
