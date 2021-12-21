@@ -14,7 +14,7 @@ public class GetQuoteFinalized {
         this.quoteRepository = quoteRepository;
     }
 
-    public Optional<Quote> getQuote(QuoteId id){
+    public Quote getQuote(QuoteId id){
         return quoteRepository.findById(id);
     }
 }

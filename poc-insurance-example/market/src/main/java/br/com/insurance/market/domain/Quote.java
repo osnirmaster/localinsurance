@@ -2,6 +2,7 @@ package br.com.insurance.market.domain;
 
 import br.com.insurance.market.domain.service.CommandBroker;
 import br.com.insurance.market.domain.vo.QuoteStatus;
+import software.amazon.awssdk.enhanced.dynamodb.extensions.annotations.DynamoDbVersionAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
@@ -26,6 +27,7 @@ public class Quote {
     private String birthDateCustomer;
     private Double coverTax;
     private List<CreditContractParcel> creditContractParcel = new ArrayList<>() ;
+    private Long version;
 
     public Quote(){}
 
@@ -151,6 +153,15 @@ public class Quote {
 
     public void setCreditContractParcel(List<CreditContractParcel> creditContractParcel) {
         this.creditContractParcel = creditContractParcel;
+    }
+
+   @DynamoDbVersionAttribute
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class DynamoDBConfig {
                         .build();
 
         return DynamoDbClient.builder()
-                .region(Region.US_EAST_1)
+                .region(Region.SA_EAST_1)
                 .credentialsProvider(ProfileCredentialsProvider.create("default"))
                 .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
                 .endpointOverride(URI.create(dynamoDbEndPointUrl))

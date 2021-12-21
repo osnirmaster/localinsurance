@@ -21,7 +21,7 @@
     }
   ],
   "ProvisionedThroughput": {
-    "ReadCapacityUnits": 5,
-    "WriteCapacityUnits": 5
+    "ReadCapacityUnits": 100,
+    "WriteCapacityUnits": 100
   }
 }
