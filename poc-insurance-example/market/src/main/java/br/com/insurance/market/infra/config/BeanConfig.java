@@ -6,6 +6,7 @@ import br.com.insurance.market.domain.service.CustomerEligibility;
 import br.com.insurance.market.domain.service.GetCustomer;
 import br.com.insurance.market.domain.usecase.GetQuoteFinalized;
 import br.com.insurance.market.domain.usecase.UpdateParcelsQuote;
+import br.com.insurance.market.infra.db.repositories.LockItemService;
 import br.com.insurance.market.infra.db.repositories.QuoteRepository;
 import br.com.insurance.market.domain.usecase.GetQuoteCalculation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class BeanConfig {
     private final CustomerEligibility customerEligibility;
     private final GetCustomer getCustomer;
     private final CommandBroker commandBroker;
+    private final LockItemService lockItemService;
 
     @Autowired
     private  QuoteRepository quoteRepository;
@@ -27,14 +29,15 @@ public class BeanConfig {
             CoverTax coverTax,
             CustomerEligibility customerEligibility,
             GetCustomer getCustomer,
-            CommandBroker commandBroker)
+            CommandBroker commandBroker, LockItemService lockItemService)
              {
         this.coverTax = coverTax;
         this.customerEligibility = customerEligibility;
         this.getCustomer = getCustomer;
         this.commandBroker = commandBroker;
 
-    }
+                 this.lockItemService = lockItemService;
+             }
 
     @Bean
     public GetQuoteCalculation getQuoteCalculation() {
@@ -44,7 +47,7 @@ public class BeanConfig {
 
     @Bean
     public UpdateParcelsQuote updateQuote(){
-        return new UpdateParcelsQuote(quoteRepository);
+        return new UpdateParcelsQuote(quoteRepository, lockItemService);
     }
 
     @Bean

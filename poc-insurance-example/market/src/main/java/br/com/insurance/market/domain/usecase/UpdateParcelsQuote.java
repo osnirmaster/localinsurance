@@ -2,65 +2,40 @@ package br.com.insurance.market.domain.usecase;
 
 import br.com.insurance.market.domain.Quote;
 import br.com.insurance.market.domain.QuoteId;
-import br.com.insurance.market.domain.vo.QuoteStatus;
+import br.com.insurance.market.infra.db.repositories.LockItemService;
 import br.com.insurance.market.infra.db.repositories.QuoteRepository;
+import com.amazonaws.services.dynamodbv2.LockItem;
 import lombok.extern.slf4j.Slf4j;
-import software.amazon.awssdk.services.dynamodb.model.ConditionalCheckFailedException;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.nio.Buffer;
 
 @Slf4j
 public class UpdateParcelsQuote {
 
     private final QuoteRepository quoteRepository;
+    private final LockItemService lockItemService;
 
-    public UpdateParcelsQuote(QuoteRepository quoteRepository) {
+    public UpdateParcelsQuote(QuoteRepository quoteRepository, LockItemService lockItemService) {
         this.quoteRepository = quoteRepository;
+        this.lockItemService = lockItemService;
     }
 
     public Quote includeParcel(Quote quoteUpdated) throws IOException, InterruptedException {
 
         QuoteId id = new QuoteId(quoteUpdated.getCustomerId(), quoteUpdated.getQuoteId());
-
         Quote quote = null;
 
-        quoteRepository.getLockItem(id);
-        
         try{
-             quoteRepository.getLockItem(id);
-             quote = quoteRepository.findById(id);
+           Buffer data =  lockItemService.getLockItem(id, quoteUpdated).getData().get();
 
-            if(quote == null){
-                throw new Exception("Cotação nao encontrada");
-            }
+           log.info("Buffer: {}", data);
             
         }catch (Exception ex){
             log.error(String.valueOf(ex));
             log.info("erro: {}", ex);
         }
 
-        quote.
-                getCreditContractParcel().add(quoteUpdated.getCreditContractParcel().get(0));
-
-        Integer contractsNumber = Math.toIntExact(quote.getCreditContracts().stream().count());
-        Integer contractsUpdated = Math.toIntExact(quote.getCreditContractParcel().stream().count());
-
-        log.info("Contratos Enviados: {} vs {} Contratos Calculados", contractsNumber, contractsUpdated);
-        log.info("quote id: {}, credit id: {}", quoteUpdated.getQuoteId(), quoteUpdated.getCreditContractParcel().get(0).getCreditAgreementId() );
-        if (contractsUpdated.equals(contractsNumber) ){
-            quote.setStatus(QuoteStatus.FINISHED);
-            log.info("Calculo Quotacao finalizada", contractsNumber, contractsUpdated);
-        }
-
-        try{
-
-            return quoteRepository.save(quote);
-        }catch (ConditionalCheckFailedException ex){
-            log.info("Versão do objeto antiga, realinzando nova tentativa");
-
-            return quoteRepository.save(quote);
-        }
-
+        return quote;
     }
 }
