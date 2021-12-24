@@ -20,7 +20,6 @@ public class BeanConfig {
     private final CustomerEligibility customerEligibility;
     private final GetCustomer getCustomer;
     private final CommandBroker commandBroker;
-    private final LockItemService lockItemService;
 
     @Autowired
     private  QuoteRepository quoteRepository;
@@ -29,14 +28,13 @@ public class BeanConfig {
             CoverTax coverTax,
             CustomerEligibility customerEligibility,
             GetCustomer getCustomer,
-            CommandBroker commandBroker, LockItemService lockItemService)
+            CommandBroker commandBroker)
              {
         this.coverTax = coverTax;
         this.customerEligibility = customerEligibility;
         this.getCustomer = getCustomer;
         this.commandBroker = commandBroker;
 
-                 this.lockItemService = lockItemService;
              }
 
     @Bean
@@ -47,7 +45,7 @@ public class BeanConfig {
 
     @Bean
     public UpdateParcelsQuote updateQuote(){
-        return new UpdateParcelsQuote(quoteRepository, lockItemService);
+        return new UpdateParcelsQuote(quoteRepository);
     }
 
     @Bean

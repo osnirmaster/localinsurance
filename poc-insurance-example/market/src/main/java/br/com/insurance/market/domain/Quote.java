@@ -17,7 +17,6 @@ import java.util.concurrent.ExecutionException;
 
 @DynamoDbBean
 public class Quote {
-
     private QuoteId id;
     private String productCode;
     private QuoteStatus status = QuoteStatus.PENDENT;
@@ -26,7 +25,6 @@ public class Quote {
     private String segmentCustomerCode;
     private String birthDateCustomer;
     private Double coverTax;
-    private List<CreditContractParcel> creditContractParcel = new ArrayList<>() ;
     private Long version;
 
     public Quote(){}
@@ -55,11 +53,9 @@ public class Quote {
         this.birthDateCustomer = birthDateCustomer;
     }
 
-    public Quote(QuoteId quoteId, String productCode, CreditContractParcel parcels) {
+    public Quote(QuoteId quoteId, String productCode) {
         this.id = quoteId;
         this.productCode = productCode;
-        this.creditContractParcel = new ArrayList<>();
-        this.creditContractParcel.add(parcels);
     }
 
 
@@ -88,9 +84,9 @@ public class Quote {
     }
 
     @DynamoDbPartitionKey
-    @DynamoDbAttribute("customerId")
+    @DynamoDbAttribute("PK")
     public String getCustomerId() {
-        return this.id != null ? this.id.getCustomerId() : null;
+        return this.id != null ? "CUSTOMER#" + this.id.getCustomerId() : null;
     }
 
     public void setCustomerId(String customerId) {
@@ -102,9 +98,9 @@ public class Quote {
     }
 
     @DynamoDbSortKey
-    @DynamoDbAttribute("quoteId")
+    @DynamoDbAttribute("SK")
     public String getQuoteId() {
-        return this.id != null ? this.id.getQuoteId() : null;
+        return this.id != null ? "QUOTE#" + this.id.getQuoteId() : null;
     }
 
     public void setQuoteId(String quoteId) {
@@ -147,15 +143,7 @@ public class Quote {
         this.coverTax = coverTax;
     }
 
-    public List<CreditContractParcel> getCreditContractParcel() {
-        return creditContractParcel;
-    }
 
-    public void setCreditContractParcel(List<CreditContractParcel> creditContractParcel) {
-        this.creditContractParcel = creditContractParcel;
-    }
-
-   @DynamoDbVersionAttribute
     public Long getVersion() {
         return version;
     }
@@ -197,7 +185,6 @@ public class Quote {
                 ", segmentCustomerCode='" + segmentCustomerCode + '\'' +
                 ", birthDateCustomer=" + birthDateCustomer +
                 ", coverTax=" + coverTax +
-                ", creditContractParcel=" + creditContractParcel +
                 '}';
     }
 }
