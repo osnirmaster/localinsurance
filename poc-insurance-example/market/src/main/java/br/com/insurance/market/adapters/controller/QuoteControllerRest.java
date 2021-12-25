@@ -49,7 +49,7 @@ public class QuoteControllerRest {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Quote> updateQuote( @PathVariable Long id ,@RequestBody @Valid UpdateQuote request) throws IOException, InterruptedException {
+    public ResponseEntity<Quote> updateQuote( @PathVariable String id ,@RequestBody @Valid UpdateQuote request) throws IOException, InterruptedException {
         log.info("ID recebido: {}", id);
         log.info("request recebido: {}", request);
 

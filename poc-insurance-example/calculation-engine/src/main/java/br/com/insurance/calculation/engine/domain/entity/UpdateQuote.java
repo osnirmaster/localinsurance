@@ -1,7 +1,5 @@
 package br.com.insurance.calculation.engine.domain.entity;
 
-import java.util.List;
-
 public class UpdateQuote {
 
     private String customerId;
@@ -58,7 +56,7 @@ public class UpdateQuote {
                 "customerId='" + customerId + '\'' +
                 ", quoteId='" + quoteId + '\'' +
                 ", productCode='" + productCode + '\'' +
-                ", creditContract=" + creditContractParcel +
+                ", creditContractParcel=" + creditContractParcel +
                 '}';
     }
 }

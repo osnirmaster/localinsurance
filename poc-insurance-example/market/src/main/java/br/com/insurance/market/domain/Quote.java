@@ -2,21 +2,19 @@ package br.com.insurance.market.domain;
 
 import br.com.insurance.market.domain.service.CommandBroker;
 import br.com.insurance.market.domain.vo.QuoteStatus;
-import software.amazon.awssdk.enhanced.dynamodb.extensions.annotations.DynamoDbVersionAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
-
-
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 @DynamoDbBean
 public class Quote {
+    private String PK;
+    private String SK;
     private QuoteId id;
     private String productCode;
     private QuoteStatus status = QuoteStatus.PENDENT;
@@ -83,10 +81,8 @@ public class Quote {
         this.dateQuote = dateQuote;
     }
 
-    @DynamoDbPartitionKey
-    @DynamoDbAttribute("PK")
     public String getCustomerId() {
-        return this.id != null ? "CUSTOMER#" + this.id.getCustomerId() : null;
+        return this.id != null ? this.id.getCustomerId() : null;
     }
 
     public void setCustomerId(String customerId) {
@@ -97,10 +93,8 @@ public class Quote {
         this.id.setCustomerId(customerId);
     }
 
-    @DynamoDbSortKey
-    @DynamoDbAttribute("SK")
     public String getQuoteId() {
-        return this.id != null ? "QUOTE#" + this.id.getQuoteId() : null;
+        return this.id != null ? this.id.getQuoteId() : null;
     }
 
     public void setQuoteId(String quoteId) {
@@ -150,6 +144,34 @@ public class Quote {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    @DynamoDbPartitionKey
+    @DynamoDbAttribute("PK")
+    public String getPK() {
+        return this.id != null ? "CUSTOMER#" + this.id.getCustomerId() : null;
+    }
+
+    public void setPK(String PK) {
+        if(this.id == null){
+            this.id = new QuoteId();
+        }
+
+        this.id.setCustomerId(PK);
+    }
+
+    @DynamoDbSortKey
+    @DynamoDbAttribute("SK")
+    public String getSK() {
+        return this.id != null ? "QUOTE#" + this.id.getQuoteId() : null;
+    }
+
+    public void setSK(String SK) {
+        if(this.id == null){
+            this.id = new QuoteId();
+        }
+
+        this.id.setQuoteId(SK);
     }
 
     @Override

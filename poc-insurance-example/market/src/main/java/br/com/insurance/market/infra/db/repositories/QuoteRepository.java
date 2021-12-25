@@ -31,8 +31,8 @@ public class QuoteRepository {
         DynamoDbTable<Quote> quoteTable = getTableQuote();
 
         Key key = Key.builder()
-                .partitionValue(id.customerId)
-                .sortValue(id.quoteId)
+                .partitionValue("CUSTOMER#" + id.customerId)
+                .sortValue("QUOTE#" + id.quoteId)
                 .build();
 
         return quoteTable.getItem(key);

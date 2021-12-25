@@ -6,17 +6,38 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 @DynamoDbBean
 public class CreditContractParcel {
+    private String PK;
+    private String SK;
     private String quoteId;
     private String creditAgreementId;
-    private List<Parcel> parcels;
+    private List<Parcel> parcels = new ArrayList<>();
 
     @DynamoDbPartitionKey
     @DynamoDbAttribute("PK")
+    public String getPK() {
+        return "QUOTE#" + getQuoteId();
+    }
+
+    public void setPK(String PK) {
+        this.PK = PK;
+    }
+
+    @DynamoDbSortKey
+    @DynamoDbAttribute("SK")
+    public String getSK() {
+        return "CONTRACT#" + getCreditAgreementId();
+    }
+
+    public void setSK(String SK) {
+        this.SK = SK;
+    }
+
+
     public String getQuoteId() {
         return quoteId;
     }
@@ -25,8 +46,7 @@ public class CreditContractParcel {
         this.quoteId = quoteId;
     }
 
-    @DynamoDbSortKey
-    @DynamoDbAttribute("SK")
+
     public String getCreditAgreementId() {
         return creditAgreementId;
     }
@@ -35,7 +55,6 @@ public class CreditContractParcel {
         this.creditAgreementId = creditAgreementId;
     }
 
-    @JsonIncludeProperties
     @DynamoDbAttribute("parcels")
     public List<Parcel> getParcels() {
         return parcels;

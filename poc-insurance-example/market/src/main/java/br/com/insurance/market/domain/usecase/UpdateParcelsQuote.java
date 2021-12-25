@@ -19,11 +19,14 @@ public class UpdateParcelsQuote {
 
     public UpdateQuote includeParcel(UpdateQuote quoteUpdated) throws IOException, InterruptedException {
 
+        log.info("Quote: {}, customerId: {}, quoteid: {}", quoteUpdated,quoteUpdated.getCustomerId(), quoteUpdated.getQuoteId());
         QuoteId id = new QuoteId(quoteUpdated.getCustomerId(), quoteUpdated.getQuoteId());
 
         Quote quote = quoteRepository.findById(id);
 
-        if(quote != null) quoteRepository.saveParcel(quoteUpdated.getCreditContractParcel().convertKeys());
+        log.info("Cotacao: {}", quote);
+
+        if(quote != null) quoteRepository.saveParcel(quoteUpdated.getCreditContractParcel());
 
         return quoteUpdated;
     }

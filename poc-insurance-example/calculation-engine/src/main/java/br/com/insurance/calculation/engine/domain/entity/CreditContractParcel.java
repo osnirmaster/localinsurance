@@ -1,16 +1,25 @@
 package br.com.insurance.calculation.engine.domain.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CreditContractParcel {
     private String quoteId;
     private String creditAgreementId;
-    private List<Parcel> parcels;
+    private List<Parcel> parcels = new ArrayList<>();
 
     public CreditContractParcel( String quoteId,String creditAgreementId, List<Parcel> parcels) {
         this.quoteId = quoteId;
         this.creditAgreementId = creditAgreementId;
         this.parcels = parcels;
+    }
+
+    public String getQuoteId() {
+        return quoteId;
+    }
+
+    public void setQuoteId(String quoteId) {
+        this.quoteId = quoteId;
     }
 
     public String getCreditAgreementId() {
