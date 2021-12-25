@@ -1,5 +1,6 @@
 package br.com.insurance.market.domain;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConvertedJson;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
@@ -55,6 +56,7 @@ public class CreditContractParcel {
         this.creditAgreementId = creditAgreementId;
     }
 
+    @DynamoDBTypeConvertedJson
     @DynamoDbAttribute("parcels")
     public List<Parcel> getParcels() {
         return parcels;
