@@ -47,8 +47,9 @@ public class CalculationByContractCredit {
                 quote.getCustomerId(),
                 quote.getQuoteId(),
                 quote.getProductCode(),
-                new CreditContractParcel(quote.getCreditContract()
-                        .getCreditAgreementId(),
+                new CreditContractParcel(
+                        quote.getQuoteId(),
+                        quote.getCreditContract().getCreditAgreementId(),
                         parcels)
         );
     }

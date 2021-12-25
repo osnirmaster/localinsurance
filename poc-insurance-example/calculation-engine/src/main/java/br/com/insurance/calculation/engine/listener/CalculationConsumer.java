@@ -39,10 +39,10 @@ public class CalculationConsumer {
         try{
             logger.info("Iniciando consumo do tópico {}, key {}, Numero do contrato {}", topico, key, message.getCreditContract().getCreditAgreementId() );
             logger.info("mensagem: {}", message);
-            UpdateQuote quote = calculation.toCalculate(message);
-            logger.info("Atualizando Cotação: {}", quote);
+            UpdateQuote quoteUpdated = calculation.toCalculate(message);
+            logger.info("Atualizando Cotação: {}", quoteUpdated);
 
-            restTemplate.put(hostQuoteService+"/insurance/quote/1", quote , UpdateQuote.class);;
+            restTemplate.put(hostQuoteService+"/insurance/quote/" + quoteUpdated.getQuoteId() , quoteUpdated , UpdateQuote.class);;
 
             ack.acknowledge();
             logger.info("Commit realizado");

@@ -55,7 +55,8 @@ public class CreditContractParcel {
     @Override
     public String toString() {
         return "CreditContractParcel{" +
-                "creditAgreementId='" + creditAgreementId + '\'' +
+                "quoteId='" + quoteId + '\'' +
+                ", creditAgreementId='" + creditAgreementId + '\'' +
                 ", parcels=" + parcels +
                 '}';
     }

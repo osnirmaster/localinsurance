@@ -2,6 +2,7 @@ package br.com.insurance.market.adapters.controller;
 
 import br.com.insurance.market.adapters.dto.RequestQuote;
 import br.com.insurance.market.adapters.dto.UpdateQuote;
+import br.com.insurance.market.domain.CreditContractParcel;
 import br.com.insurance.market.domain.Quote;
 import br.com.insurance.market.domain.QuoteId;
 import br.com.insurance.market.domain.usecase.GetQuoteCalculation;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
+
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
@@ -51,18 +54,18 @@ public class QuoteControllerRest {
         log.info("request recebido: {}", request);
 
 
-        Quote quote = updateParcelsQuote.includeParcel(request.convertTo());
+        Quote quote = updateParcelsQuote.includeParcel(request).convertTo();
         return ResponseEntity.ok(quote);
     }
 
     @GetMapping("/{quoteId}/customer/{customerId}")
-    public ResponseEntity<Quote> getQuote( @PathVariable String quoteId, @PathVariable String customerId){
+    public ResponseEntity<PageIterable<CreditContractParcel>> getQuote(@PathVariable String quoteId, @PathVariable String customerId){
         QuoteId key = new QuoteId();
         key.setCustomerId(customerId);
         key.setQuoteId(quoteId);
 
-        Quote quote = quoteFinalized.getQuote(key);
-        return ResponseEntity.ok(quote);
+        PageIterable<CreditContractParcel> updatedQuote = quoteFinalized.getQuoteWithParcels(key.getQuoteId());
+        return ResponseEntity.ok(updatedQuote);
 
     }
 }

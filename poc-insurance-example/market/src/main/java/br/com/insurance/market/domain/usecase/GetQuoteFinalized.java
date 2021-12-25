@@ -1,8 +1,10 @@
 package br.com.insurance.market.domain.usecase;
 
+import br.com.insurance.market.domain.CreditContractParcel;
 import br.com.insurance.market.domain.Quote;
 import br.com.insurance.market.domain.QuoteId;
 import br.com.insurance.market.infra.db.repositories.QuoteRepository;
+import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 
 import java.util.Optional;
 
@@ -14,7 +16,7 @@ public class GetQuoteFinalized {
         this.quoteRepository = quoteRepository;
     }
 
-    public Quote getQuote(QuoteId id){
-        return quoteRepository.findById(id);
+    public PageIterable<CreditContractParcel> getQuoteWithParcels(String id){
+        return quoteRepository.getContractParcel(id);
     }
 }

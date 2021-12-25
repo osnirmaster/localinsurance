@@ -3,10 +3,12 @@ package br.com.insurance.calculation.engine.domain.entity;
 import java.util.List;
 
 public class CreditContractParcel {
+    private String quoteId;
     private String creditAgreementId;
     private List<Parcel> parcels;
 
-    public CreditContractParcel(String creditAgreementId, List<Parcel> parcels) {
+    public CreditContractParcel( String quoteId,String creditAgreementId, List<Parcel> parcels) {
+        this.quoteId = quoteId;
         this.creditAgreementId = creditAgreementId;
         this.parcels = parcels;
     }
@@ -30,7 +32,8 @@ public class CreditContractParcel {
     @Override
     public String toString() {
         return "CreditContractParcel{" +
-                "creditAgreementId='" + creditAgreementId + '\'' +
+                "quoteId='" + quoteId + '\'' +
+                ", creditAgreementId='" + creditAgreementId + '\'' +
                 ", parcels=" + parcels +
                 '}';
     }

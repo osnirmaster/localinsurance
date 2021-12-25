@@ -14,6 +14,12 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+/*
+Classe que implementar Lock Otimista nos items da tabela Dynamodb, podendo ser uma forma de controlar
+varios serviços acessando e modificando o mesmo item
+ */
+
+
 @Slf4j
 @Service
 public class LockItemService {
@@ -57,21 +63,21 @@ public class LockItemService {
                     System.out.println("Acquired lock by " );
 
                     Quote quote = quoteRepository.findById(id);
-                    quote.getCreditContractParcel().add(quoteUpdated.getCreditContractParcel().get(0));
+                    //quote.getCreditContractParcel().add(quoteUpdated.getCreditContractParcel().get(0));
 
                     if (quote != null) {
                         System.out.println( " Quote avaliable: " + quote.getQuoteId());
 
                         Integer contractsNumber = Math.toIntExact(quote.getCreditContracts().stream().count());
-                        Integer contractsUpdated = Math.toIntExact(quote.getCreditContractParcel().stream().count());
+                       // Integer contractsUpdated = Math.toIntExact(quote.getCreditContractParcel().stream().count());
 
-                        log.info("Contratos Enviados: {} vs {} Contratos Calculados", contractsNumber, contractsUpdated);
-                        log.info("quote id: {}, credit id: {}", quoteUpdated.getQuoteId(), quoteUpdated.getCreditContractParcel().get(0).getCreditAgreementId() );
+                       // log.info("Contratos Enviados: {} vs {} Contratos Calculados", contractsNumber, contractsUpdated);
+                       // log.info("quote id: {}, credit id: {}", quoteUpdated.getQuoteId(), quoteUpdated.getCreditContractParcel().get(0).getCreditAgreementId() );
 
-                        if (contractsUpdated.equals(contractsNumber) ){
+                    /*    if (contractsUpdated.equals(contractsNumber) ){
                             quote.setStatus(QuoteStatus.FINISHED);
                             log.info("Calculo Quotacao finalizada", contractsNumber, contractsUpdated);
-                        }
+                        }*/
 
                         try {
                             quoteRepository.save(quote); // processing complete

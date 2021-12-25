@@ -61,7 +61,7 @@ public class UpdateQuote {
 
         return new Quote(
                 id,
-                this.productCode,
-                this.creditContractParcel);
+                this.productCode
+        );
     }
 }
