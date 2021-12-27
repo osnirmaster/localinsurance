@@ -1,6 +1,7 @@
 package br.com.insurance.market.adapters.controller;
 
 import br.com.insurance.market.adapters.dto.RequestQuote;
+import br.com.insurance.market.adapters.dto.ResponseQuote;
 import br.com.insurance.market.adapters.dto.UpdateQuote;
 import br.com.insurance.market.domain.CreditContractParcel;
 import br.com.insurance.market.domain.Quote;
@@ -8,6 +9,7 @@ import br.com.insurance.market.domain.QuoteId;
 import br.com.insurance.market.domain.usecase.GetQuoteCalculation;
 import br.com.insurance.market.domain.usecase.GetQuoteFinalized;
 import br.com.insurance.market.domain.usecase.UpdateParcelsQuote;
+import br.com.insurance.market.domain.vo.QuoteStatus;
 import br.com.insurance.market.infra.db.repositories.QuoteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -59,13 +62,19 @@ public class QuoteControllerRest {
     }
 
     @GetMapping("/{quoteId}/customer/{customerId}")
-    public ResponseEntity<PageIterable<CreditContractParcel>> getQuote(@PathVariable String quoteId, @PathVariable String customerId){
+    public ResponseEntity<PageIterable<CreditContractParcel>> getQuote(@PathVariable String quoteId, @PathVariable String customerId, @RequestParam Integer contracts){
         QuoteId key = new QuoteId();
         key.setCustomerId(customerId);
         key.setQuoteId(quoteId);
 
         PageIterable<CreditContractParcel> updatedQuote = quoteFinalized.getQuoteWithParcels(key.getQuoteId());
-        return ResponseEntity.ok(updatedQuote);
+
+        ResponseQuote response = new ResponseQuote(customerId, quoteId, QuoteStatus.PENDENT, updatedQuote.stream());
+
+
+        if(updatedQuote.stream().count() == contracts) return ResponseEntity.ok(updatedQuote);
+
+        return ResponseEntity.ok()
 
     }
 }

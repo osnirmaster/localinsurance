@@ -14,6 +14,7 @@ public class CommandController {
     private final RestTemplate restTemplate;
     @Value("${app.request.quote}")
     private String hostQuoteServer;
+    private String response;
 
     public CommandController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -28,6 +29,7 @@ public class CommandController {
 
         log.info("Iniciando  Polling da cotacao...");
         Quote quote = new Quote();
+
         while (!quote.getStatus().equals(QuoteStatus.FINISHED)) {
 
             log.info("Fazendo Polling ->");
