@@ -24,24 +24,31 @@ public class CommandController {
     public ResponseEntity command(@RequestBody RequestQuote request) {
 
         log.info("Solicitando cotacao...");
-        ResponseCommandQuote response = restTemplate
+        ResponseCommandQuote responseQuote = restTemplate
                 .postForObject(hostQuoteServer+"/insurance/quote/", request, ResponseCommandQuote.class);
 
         log.info("Iniciando  Polling da cotacao...");
-        Quote quote = new Quote();
+        ResponseQuote response = new ResponseQuote();
+        response.setStatusQuote(QuoteStatus.PENDENT);
 
-        while (!quote.getStatus().equals(QuoteStatus.FINISHED)) {
+        while (!response.getStatusQuote().equals(QuoteStatus.FINISHED)) {
 
             log.info("Fazendo Polling ->");
-            quote = restTemplate
-                    .getForObject(hostQuoteServer+"/insurance/quote/" + response.getQuoteId() + "/customer/" + response.getCustomerId(),
-                            Quote.class);
-            log.info("Response -> {}", quote);
+            response = restTemplate
+                    .getForObject(
+                            hostQuoteServer +
+                                    "/insurance/quote/" +
+                                    responseQuote.getQuoteId() +
+                                    "/customer/" +
+                                    responseQuote.getCustomerId() +
+                                    "?contracts=" + request.getContracts().stream().count(),
+                            ResponseQuote.class);
+            log.info("Response -> {}", response);
 
         }
 
         log.info("Polling Finalizado");
-        return ResponseEntity.ok(quote);
+        return ResponseEntity.ok(response);
     }
 
 }

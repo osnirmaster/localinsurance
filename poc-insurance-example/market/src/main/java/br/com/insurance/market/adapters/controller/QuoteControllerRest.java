@@ -62,19 +62,22 @@ public class QuoteControllerRest {
     }
 
     @GetMapping("/{quoteId}/customer/{customerId}")
-    public ResponseEntity<PageIterable<CreditContractParcel>> getQuote(@PathVariable String quoteId, @PathVariable String customerId, @RequestParam Integer contracts){
+    public ResponseEntity<ResponseQuote> getQuote(@PathVariable String quoteId, @PathVariable String customerId, @RequestParam Integer contracts){
         QuoteId key = new QuoteId();
         key.setCustomerId(customerId);
         key.setQuoteId(quoteId);
 
         PageIterable<CreditContractParcel> updatedQuote = quoteFinalized.getQuoteWithParcels(key.getQuoteId());
 
-        ResponseQuote response = new ResponseQuote(customerId, quoteId, QuoteStatus.PENDENT, updatedQuote.stream());
+        ResponseQuote response = new ResponseQuote(customerId, quoteId, QuoteStatus.PENDENT, updatedQuote.iterator().next().items());
 
+        log.info("numero contratos calculados: {} e parameter {}", response.getContracts().stream().count(), contracts );
+        if(response.getContracts().stream().count() == contracts){
+            response.setStatusQuote(QuoteStatus.FINISHED);
+            return ResponseEntity.ok(response);
+        }
 
-        if(updatedQuote.stream().count() == contracts) return ResponseEntity.ok(updatedQuote);
-
-        return ResponseEntity.ok()
+        return ResponseEntity.ok(response);
 
     }
 }
