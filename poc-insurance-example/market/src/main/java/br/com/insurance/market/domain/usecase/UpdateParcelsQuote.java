@@ -22,11 +22,17 @@ public class UpdateParcelsQuote {
         log.info("Quote: {}, customerId: {}, quoteid: {}", quoteUpdated,quoteUpdated.getCustomerId(), quoteUpdated.getQuoteId());
         QuoteId id = new QuoteId(quoteUpdated.getCustomerId(), quoteUpdated.getQuoteId());
 
-        Quote quote = quoteRepository.findById(id);
+        int retry = 0;
+        while(retry <= 3){
+            Quote quote = quoteRepository.findById(id);
 
-        log.info("Cotacao: {}", quote);
-
-        if(quote != null) quoteRepository.saveParcel(quoteUpdated.getCreditContractParcel());
+            log.info("Cotacao: {}", quote);
+            if(quote != null){
+                quoteRepository.saveParcel(quoteUpdated.getCreditContractParcel());
+                break;
+            }
+            retry+=1;
+        }
 
         return quoteUpdated;
     }

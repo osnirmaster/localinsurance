@@ -10,9 +10,10 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.enhanced.dynamodb.model.GetItemEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
-
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 
 @Slf4j
 @Repository
@@ -35,11 +36,15 @@ public class QuoteRepository {
                 .sortValue("QUOTE#" + id.quoteId)
                 .build();
 
-        return quoteTable.getItem(key);
+        return quoteTable
+                .getItem(GetItemEnhancedRequest.builder()
+                        .key(key)
+                        .consistentRead(true)
+                        .build());
     }
 
     public CreditContractParcel saveParcel(final CreditContractParcel contract){
-        log.info("entitiy: {}", contract);
+        log.info("save parcel: {}", contract);
         DynamoDbTable<CreditContractParcel> contractTable = getTableContract();
         contractTable.putItem(contract);
 
