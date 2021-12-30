@@ -23,7 +23,7 @@ public class UpdateParcelsQuote {
         QuoteId id = new QuoteId(quoteUpdated.getCustomerId(), quoteUpdated.getQuoteId());
 
         int retry = 0;
-        while(retry <= 3){
+        while(retry <= 10){
             Quote quote = quoteRepository.findById(id);
 
             log.info("Cotacao: {}", quote);

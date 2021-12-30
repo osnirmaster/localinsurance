@@ -49,4 +49,14 @@ public class ResponseQuote {
     public void setContracts(List<CreditContractParcel> contracts) {
         this.contracts = contracts;
     }
+
+
+    @Override
+    public String toString() {
+        return "ResponseQuote{" +
+                "customerId='" + customerId + '\'' +
+                ", quoteId='" + quoteId + '\'' +
+                ", statusQuote=" + statusQuote +
+                '}';
+    }
 }

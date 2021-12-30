@@ -2,26 +2,26 @@
     "TableName": "Quote",
   "AttributeDefinitions": [
     {
-      "AttributeName": "customerId",
+      "AttributeName": "PK",
       "AttributeType": "S"
     },
     {
-      "AttributeName": "quoteId",
+      "AttributeName": "SK",
       "AttributeType": "S"
     }
   ],
   "KeySchema": [
     {
-      "AttributeName": "customerId",
+      "AttributeName": "PK",
       "KeyType": "HASH"
     },
     {
-      "AttributeName": "quoteId",
+      "AttributeName": "SK",
       "KeyType": "RANGE"
     }
   ],
   "ProvisionedThroughput": {
-    "ReadCapacityUnits": 100,
-    "WriteCapacityUnits": 100
+    "ReadCapacityUnits": 200,
+    "WriteCapacityUnits": 200
   }
 }

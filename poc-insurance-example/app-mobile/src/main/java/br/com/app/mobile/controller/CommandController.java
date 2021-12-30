@@ -21,7 +21,7 @@ public class CommandController {
     }
 
     @PostMapping
-    public ResponseEntity command(@RequestBody RequestQuote request) {
+    public ResponseEntity command(@RequestBody RequestQuote request) throws InterruptedException {
 
         log.info("Solicitando cotacao...");
         ResponseCommandQuote responseQuote = restTemplate
@@ -30,8 +30,8 @@ public class CommandController {
         log.info("Iniciando  Polling da cotacao...");
         ResponseQuote response = new ResponseQuote();
         response.setStatusQuote(QuoteStatus.PENDENT);
-
-        while (!response.getStatusQuote().equals(QuoteStatus.FINISHED)) {
+        int retry = 0;
+        while (!response.getStatusQuote().equals(QuoteStatus.FINISHED) && retry <=25) {
 
             log.info("Fazendo Polling ->");
             response = restTemplate
@@ -45,9 +45,17 @@ public class CommandController {
                             ResponseQuote.class);
             log.info("Response -> {}", response);
 
+            retry+= 1;
+            if(retry == 25) return ResponseEntity.internalServerError().build();
+            Thread.sleep(retry * 20);
+
+
         }
 
         log.info("Polling Finalizado");
+
+
+
         return ResponseEntity.ok(response);
     }
 
