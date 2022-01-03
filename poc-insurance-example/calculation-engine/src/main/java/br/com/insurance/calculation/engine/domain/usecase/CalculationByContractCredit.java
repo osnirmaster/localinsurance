@@ -25,6 +25,8 @@ public class CalculationByContractCredit {
                 .queryTax(new TermFeeId(quote.getProductCode(),
                         quote.getCreditContract().getCreditParcelAmount())).items().stream().collect(Collectors.toList());
 
+        log.info("lista de taxas: {}", tax);
+
         List<Parcel> parcels = new ArrayList<>();
         for (int i = 0; i < quote.getCreditContract().getCreditParcelAmount() ; i++) {
           try{

@@ -208,7 +208,7 @@ services:
 
   market-service1:
     build: ./market
-    image: market
+    image: market-service
     depends_on:
       - broker
       - dynamodb-local
@@ -222,7 +222,7 @@ services:
 
   market-service2:
     build: ./market
-    image: market
+    image: market-service
     depends_on:
       - broker
       - dynamodb-local
@@ -236,7 +236,7 @@ services:
 
   market-service3:
     build: ./market
-    image: market
+    image: market-service
     depends_on:
       - broker
       - dynamodb-local

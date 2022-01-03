@@ -31,7 +31,7 @@ public class CommandController {
         ResponseQuote response = new ResponseQuote();
         response.setStatusQuote(QuoteStatus.PENDENT);
         int retry = 0;
-        while (!response.getStatusQuote().equals(QuoteStatus.FINISHED) && retry <=25) {
+        while (!response.getStatusQuote().equals(QuoteStatus.FINISHED) && retry <= 70) {
 
             log.info("Fazendo Polling ->");
             response = restTemplate
@@ -46,9 +46,8 @@ public class CommandController {
             log.info("Response -> {}", response);
 
             retry+= 1;
-            if(retry == 25) return ResponseEntity.internalServerError().build();
+            if(retry == 70) return ResponseEntity.internalServerError().build();
             Thread.sleep(retry * 20);
-
 
         }
 
