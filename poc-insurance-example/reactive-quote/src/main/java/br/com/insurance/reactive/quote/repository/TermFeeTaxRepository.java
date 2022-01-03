@@ -1,12 +1,11 @@
 package br.com.insurance.reactive.quote.repository;
 
-import br.com.insurance.reactive.quote.model.Quote;
 import br.com.insurance.reactive.quote.model.TermFeeTax;
 import org.springframework.stereotype.Repository;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbAsyncTable;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedAsyncClient;
-import software.amazon.awssdk.enhanced.dynamodb.Key;
-import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.enhanced.dynamodb.*;
+import software.amazon.awssdk.enhanced.dynamodb.model.PagePublisher;
+import software.amazon.awssdk.services.dynamodb.model.ListTablesRequest;
+import software.amazon.awssdk.services.dynamodb.paginators.ListTablesPublisher;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -26,6 +25,12 @@ public class TermFeeTaxRepository {
     //READ
     public CompletableFuture<TermFeeTax> getTermFeeByID(String productCode, Integer timeDays) {
         return termFeeTaxDynamoDbAsyncTable.getItem(getKeyBuild(productCode, timeDays));
+    }
+
+
+    public PagePublisher<TermFeeTax> queryTax() {
+
+            return termFeeTaxDynamoDbAsyncTable.scan();
     }
 
     private Key getKeyBuild(String productCode, Integer timeDays) {

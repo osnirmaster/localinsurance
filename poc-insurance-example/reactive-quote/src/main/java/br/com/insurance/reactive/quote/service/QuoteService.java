@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+import software.amazon.awssdk.core.async.SdkPublisher;
+import software.amazon.awssdk.services.dynamodb.paginators.ListTablesPublisher;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -36,7 +39,26 @@ public class QuoteService {
                 .getCreditContracts())
                 .parallel()
                 .runOn(Schedulers.parallel())
-                .map( s -> toCalculate(quote, s)).log()
+                .flatMap( con -> {
+                    List<Parcel> parcels = new ArrayList<>();
+
+                    List<TermFeeTax> taxes = new ArrayList<>();
+                    SdkPublisher<TermFeeTax> publisher =  taxRepository.queryTax().items().filter(ss -> ss.getTimeDays() <= con.getCreditParcelAmount());
+                    log.info("acesso a base: ");
+                   return Flux.from(publisher)
+                            .map(li -> {
+                                BigDecimal priceTaxFee = con.getCreditPriceTotal().multiply(BigDecimal.valueOf(li.getTax()));
+                                BigDecimal priceCoverTax = con
+                                        .getCreditPriceTotal()
+                                        .multiply(BigDecimal.valueOf(0.05));
+                                parcels.add(new Parcel(li.getTimeDays(),
+                                        priceCoverTax.add(priceTaxFee)));
+                                return parcels;
+                            })
+                           .doOnComplete(() -> quote.getCreditContractParcel().add(new CreditContractParcel(con.getCreditAgreementId(), parcels)))
+                           .thenMany(Flux.just(quote));
+
+                })
                 .sequential()
                 .doOnComplete(()->quoteRepository.save(quote)
                         .handle((quo, ex) -> ex == null ? quote : null)
@@ -69,27 +91,4 @@ public class QuoteService {
         return termFeeService.getTax(productCode, ammountParcels);
     }
 
-    public Flux<CreditContractParcel> toCalculate (Quote quote,CreditContract s){
-        List<Parcel> parcels = new ArrayList<>();
-        for (int i = 1; i <= s.getCreditParcelAmount() ; i++){
-            CompletableFuture<TermFeeTax> tax = taxRepository
-                    .getTermFeeByID(quote.getproductCode(),
-                            s.getCreditParcelAmount());
-            try {
-                BigDecimal priceTaxFee = s.getCreditPriceTotal().multiply(BigDecimal.valueOf(tax.get().tax));
-                BigDecimal priceCoverTax = s
-                        .getCreditPriceTotal()
-                        .multiply(BigDecimal.valueOf(0.05));
-                parcels.add(new Parcel(i,
-                        priceCoverTax.add(priceTaxFee)));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-        log.info("parcelas: {}",parcels);
-        quote.getCreditContractParcel().add(new CreditContractParcel(s.getCreditAgreementId(), parcels));
-        return Flux.just(new CreditContractParcel(s.getCreditAgreementId(), parcels)) ;
-    }
 }

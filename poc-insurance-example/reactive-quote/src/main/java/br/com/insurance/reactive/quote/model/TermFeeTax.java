@@ -67,4 +67,13 @@ public class TermFeeTax {
     public Integer addTax(Integer amount){
         return amount * 30;
     }
+
+    @Override
+    public String toString() {
+        return "TermFeeTax{" +
+                "productCode='" + productCode + '\'' +
+                ", timeDays=" + timeDays +
+                ", tax=" + tax +
+                '}';
+    }
 }
