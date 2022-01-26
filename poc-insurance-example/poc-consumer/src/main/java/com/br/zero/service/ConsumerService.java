@@ -35,6 +35,9 @@ public class ConsumerService {
             LOGGER.info("Inserindo na base: ", message);
             apoliceRepository.save(message);
 
+            ack.acknowledge();
+            LOGGER.info("Commit realizado");
+
         }catch (Exception e){
 
             if (e.getCause() instanceof AmazonServiceException){
